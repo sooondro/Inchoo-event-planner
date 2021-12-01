@@ -48,4 +48,21 @@ class Response
     public function getHeaders() {
         return $this->headers;
     }
+
+    public function renderView($fileName, $data) {
+
+        $filePath = 'Views/' . $fileName . '.php';
+
+        ob_start();
+
+        $output = '';
+
+        include $filePath;
+
+        $output = ob_get_contents();
+
+        ob_end_clean();
+
+        return $output;
+    }
 }

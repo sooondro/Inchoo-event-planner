@@ -34,6 +34,11 @@ $container['db'] = function ($c) {
     );
 };
 
-$app->get('/', [HomeController::class, 'index']);
+
+$app->get('/', [new HomeController($container->db), 'index']);
+
+$app->get('/create-event', [HomeController::class, 'index']);
+
+
 
 $app->run();
