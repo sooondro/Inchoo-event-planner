@@ -1,25 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="668fbcef-5f5b-494b-811a-1b62dce897c5" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.htaccess" beforeDir="false" afterPath="$PROJECT_DIR$/.htaccess" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/event-planner.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/event-planner.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Event.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Event.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Reservation.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Reservation.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Views/404.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Views/404.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Views/create-event.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Views/create-event.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Views/edit-user-profile.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Views/edit-user-profile.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Views/login.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Views/login.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Views/signup.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Views/signup.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Views/user-profile.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Views/user-profile.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
-    </list>
+    <list default="true" id="668fbcef-5f5b-494b-811a-1b62dce897c5" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -42,6 +24,9 @@
     </include_path>
   </component>
   <component name="ProjectId" id="21drj4LYCv2YOSuvHePnbUFle6T" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -68,5 +53,8 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>
