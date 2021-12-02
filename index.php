@@ -2,4 +2,4 @@
 
 require_once 'vendor/autoload.php';
 
-echo 'Hello';
+echo 'Hello jebem ti mater';
