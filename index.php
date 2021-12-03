@@ -5,9 +5,6 @@ use App\Controllers\HomeController;
 
 require_once 'vendor/autoload.php';
 
-
-
-
 $app = new App;
 
 $container = $app->getContainer();
