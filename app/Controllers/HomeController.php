@@ -17,10 +17,15 @@ class HomeController
 
     public function index($response)
     {
-        $events = $this->db->query("SELECT * FROM events")
-            ->fetchAll(PDO::FETCH_CLASS, Event::class);
+        $events = Event::fetchAllEvents($this->db);
 
         return $response->setBody($response->renderView('index', $events));
     }
+
+    public function fetchAllEvents() {
+        return $this->db->query("SELECT * FROM events")
+            ->fetchAll(PDO::FETCH_CLASS, Event::class);
+    }
+
 
 }

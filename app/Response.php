@@ -56,9 +56,9 @@ class Response
         ob_start();
 
         $output = '';
-
+        include 'Components/Header.php';
         include $filePath;
-
+        include 'Components/Footer.php';
         $output = ob_get_contents();
 
         ob_end_clean();
