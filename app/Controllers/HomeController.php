@@ -22,6 +22,10 @@ class HomeController
         return $response->setBody($response->renderView('index', $events));
     }
 
+    public function test($response){
+        return $response->setBody('test');
+    }
+
     public function fetchAllEvents() {
         return $this->db->query("SELECT * FROM events")
             ->fetchAll(PDO::FETCH_CLASS, Event::class);
