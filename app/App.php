@@ -5,10 +5,12 @@ namespace App;
 use App\Exceptions\MethodNotAllowedException;
 use App\Exceptions\RouteNotFoundException;
 
-class App {
+class App
+{
     protected $container;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->container = new Container([
             'router' => function () {
                 return new Router;
@@ -20,11 +22,13 @@ class App {
 
     }
 
-    public function getContainer() {
+    public function getContainer()
+    {
         return $this->container;
     }
 
-    public function get($uri, $handler) {
+    public function get($uri, $handler)
+    {
         $this->container->router->addRoute($uri, $handler, ['GET']);
     }
 

@@ -49,7 +49,7 @@ class Response
         return $this->headers;
     }
 
-    public function renderView($fileName, $data) {
+    public function renderView($fileName, $data = []) {
 
         $filePath = 'Views/' . $fileName . '.php';
 
