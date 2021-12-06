@@ -1,5 +1,5 @@
 <div class="container d-flex justify-content-center">
-    <?php if($data && $data['confirmation' === 'success']) : ?>
+    <?php if($data && $data['confirmation'] === 'success') : ?>
         <span style="color:green;">
             <?= $data['message'] ?>
         </span>

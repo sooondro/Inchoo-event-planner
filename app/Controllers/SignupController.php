@@ -56,6 +56,11 @@ class SignupController
         return false;
     }
 
+    public function hashPassword() {
+        $password = $_POST['password'];
+        return password_hash($password, PASSWORD_DEFAULT, ['cost' => 12]);
+    }
+
     public function validateAdminCheckbox(): bool
     {
         if ($_POST['admin'] === null) return false;
@@ -69,7 +74,7 @@ class SignupController
         $values['name'] = $_POST['name'];
         $values['surname'] = $_POST['surname'];
         $values['email'] = $_POST['email'];
-        $values['password'] = $_POST['password'];
+        $values['password'] = $this->hashPassword();
         $values['admin'] = $this->validateAdminCheckbox();
         return $values;
     }
