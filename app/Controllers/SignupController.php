@@ -3,6 +3,10 @@
 namespace App\Controllers;
 
 use App\Models\User;
+use App\Validators\EmailValidator;
+use App\Validators\NameValidator;
+use App\Validators\PasswordValidator;
+use App\Validators\SurnameValidator;
 use PDO;
 
 class SignupController
@@ -17,6 +21,7 @@ class SignupController
         $this->db = $db;
     }
 
+
     public function index($response)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -26,7 +31,7 @@ class SignupController
         return $this->handleGetRequest($response);
     }
 
-    public function handlePostRequest($response)
+    private function handlePostRequest($response)
     {
         if ($this->validateUserInput()) {
             User::signUpUser($this->db, $this->formValues);
@@ -42,32 +47,32 @@ class SignupController
         ]));
     }
 
-    public function handleGetRequest($response)
+    private function handleGetRequest($response)
     {
         return $response->setBody($response->renderView('signup'));
     }
 
-    public function prepareUserInput()
+    private function prepareUserInput()
     {
         $this->formValues = $this->fetchFormValuesAsArray();
         $this->trimAllWhitespaceFromUserInput();
         $this->uppercaseFirstLetterOfNameAndSurname();
     }
 
-    public function uppercaseFirstLetterOfNameAndSurname()
+    private function uppercaseFirstLetterOfNameAndSurname()
     {
         $this->formValues['name'] = ucfirst($this->formValues['name']);
         $this->formValues['surname'] = ucfirst($this->formValues['surname']);
     }
 
-    public function trimAllWhitespaceFromUserInput()
+    private function trimAllWhitespaceFromUserInput()
     {
         $this->formValues['name'] = trim($this->formValues['name']);
         $this->formValues['surname'] = trim($this->formValues['surname']);
         $this->formValues['email'] = trim($this->formValues['email']);
     }
 
-    public function fetchFormValuesAsArray(): array
+    private function fetchFormValuesAsArray(): array
     {
         $values = [];
         $values['name'] = $_POST['name'];
@@ -78,92 +83,81 @@ class SignupController
         return $values;
     }
 
-    public function validateUserInput(): bool
+    private function validateUserInput(): bool
     {
-        if (
-            $this->validatePassword()
-            && $this->validateName()
-            && $this->validateSurname()
-            && $this->validateEmail()
-        ) return true;
+        try {
+            if (
+                PasswordValidator::validate($_POST['password'])
+                && NameValidator::validate($this->formValues['name'])
+                && SurnameValidator::validate($this->formValues['surname'])
+                && EmailValidator::validate($this->formValues['email'])
+                && !$this->userExists()
+                && $this->passwordsMatch()
+            ) return true;
+        } catch (\Exception $e) {
+            $this->errMessage = $e->getMessage();
+        };
         return false;
     }
 
-    public function hashPassword(): string
+    private function hashPassword(): string
     {
         $password = $_POST['password'];
         return password_hash($password, PASSWORD_DEFAULT, ['cost' => 12]);
     }
 
-    public function validatePassword(): bool
+    private function passwordsMatch(): bool
     {
-        if (strlen($_POST['password']) < 6) {
-            $this->errMessage = 'Password has to contain 6 or more letters';
-            return false;
-        }
-        if ($_POST['password'] !== $_POST['repeated-password']){
+        if ($_POST['password'] !== $_POST['repeated-password']) {
             $this->errMessage = 'Passwords have to match';
             return false;
         }
         return true;
     }
 
-    public function validateName(): bool
-    {
-        $name = $this->formValues['name'];
-        if (empty($name)) {
-            $this->errMessage = 'Name cannot be empty';
-            return false;
-        }
-        if (!preg_match("/^[a-zA-Z-' ]*$/", $name)) {
-            $this->errMessage = "Surname has to contain letters or ' or -";
-            return false;
-        }
-        return true;
-    }
-
-    public function validateSurname(): bool
-    {
-        $name = $this->formValues['name'];
-        if (empty($name)) {
-            $this->errMessage = 'Surname cannot be empty';
-            return false;
-        }
-        if (!preg_match("/^[a-zA-Z-' ]*$/", $name)) {
-            $this->errMessage = "Surname has to contain letters or ' or -";
-            return false;
-        }
-        return true;
-    }
-
-    public function validateEmail(): bool
+    private function userExists(): bool
     {
         $email = $this->formValues['email'];
-
-        if (empty($email)) {
-            $this->errMessage = "Email cannot be empty";
-            return false;
-        }
-
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $this->errMessage = 'Email is not valid format';
-            return false;
-        }
-
         if (count(User::findUserByEmail($this->db, $email)) > 0) {
-            $this->errMessage = 'User with this email already exists';
-            return false;
+            $this->errMessage = 'User with specified email already exists';
+            return true;
+        }
+        return false;
+    }
+
+    /*    public function validateName(): bool
+        {
+            $name = $this->formValues['name'];
+            if (empty($name)) {
+                $this->errMessage = 'Name cannot be empty';
+                return false;
+            }
+            if (!preg_match("/^[a-zA-Z-' ]*$/", $name)) {
+                $this->errMessage = "Surname has to contain letters or ' or -";
+                return false;
+            }
+            return true;
         }
 
-        return true;
-    }
+        public function validateSurname(): bool
+        {
+            $name = $this->formValues['name'];
 
-/*    public function validateAdminCheckbox(): bool
-    {
-        if (isset($_POST['admin']) && $_POST['admin'] == 1) return 1;
-        return 0;
-    }
-*/
 
+            return true;
+        }*/
+
+    /*    public function validateEmail(): bool
+        {
+            $email = $this->formValues['email'];
+            return true;
+
+        }*/
+    /*    public function validateAdminCheckbox(): bool
+        {
+            if (isset($_POST['admin']) && $_POST['admin'] == 1) return 1;
+            return 0;
+        }
+    */
 
 }
