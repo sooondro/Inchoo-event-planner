@@ -2,6 +2,7 @@
 
 use App\App;
 use App\Controllers\HomeController;
+use App\Controllers\LoginController;
 use App\Controllers\SignupController;
 
 require_once 'vendor/autoload.php';
@@ -39,9 +40,11 @@ $container['db'] = function ($c) {
 
 $app->get('/', [new HomeController($container->db), 'index']);
 
-$app->get('/test', [new HomeController($container->db), 'test']);
-
 $app->map('/signup', [new SignupController($container->db), 'index'], ['GET', 'POST']);
+
+$app->map('/login', [new LoginController($container->db), 'index'], ['GET', 'POST']);
+
+$app->get('/test', [new HomeController($container->db), 'test']);
 
 $app->get('/create-event', [HomeController::class, 'index']);
 
