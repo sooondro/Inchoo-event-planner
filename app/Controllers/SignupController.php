@@ -21,8 +21,6 @@ class SignupController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $this->prepareUserInput();
-            var_dump($this->formValues);
-            die();
             return $this->handlePostRequest($response);
         }
         return $this->handleGetRequest($response);
@@ -76,7 +74,7 @@ class SignupController
         $values['surname'] = $_POST['surname'];
         $values['email'] = $_POST['email'];
         $values['password'] = $this->hashPassword();
-        $values['admin'] = $this->validateAdminCheckbox();
+        //$values['admin'] = $this->validateAdminCheckbox();
         return $values;
     }
 
@@ -112,7 +110,7 @@ class SignupController
 
     public function validateName(): bool
     {
-        $name = $_POST['name'];
+        $name = $this->formValues['name'];
         if (empty($name)) {
             $this->errMessage = 'Name cannot be empty';
             return false;
@@ -126,7 +124,7 @@ class SignupController
 
     public function validateSurname(): bool
     {
-        $name = $_POST['name'];
+        $name = $this->formValues['name'];
         if (empty($name)) {
             $this->errMessage = 'Surname cannot be empty';
             return false;
@@ -140,7 +138,8 @@ class SignupController
 
     public function validateEmail(): bool
     {
-        $email = $_POST['email'];
+        $email = $this->formValues['email'];
+
         if (empty($email)) {
             $this->errMessage = "Email cannot be empty";
             return false;
@@ -150,16 +149,21 @@ class SignupController
             $this->errMessage = 'Email is not valid format';
             return false;
         }
+
+        if (count(User::findUserByEmail($this->db, $email)) > 0) {
+            $this->errMessage = 'User with this email already exists';
+            return false;
+        }
+
         return true;
     }
 
-    public function validateAdminCheckbox(): bool
+/*    public function validateAdminCheckbox(): bool
     {
         if (isset($_POST['admin']) && $_POST['admin'] == 1) return 1;
         return 0;
     }
-
-
+*/
 
 
 }
