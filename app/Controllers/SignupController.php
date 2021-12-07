@@ -49,6 +49,11 @@ class SignupController
 
     private function handleGetRequest($response)
     {
+        session_start();
+        if (isset($_SESSION['userId'])) {
+            header('Location: /');
+            die();
+        }
         return $response->setBody($response->renderView('signup'));
     }
 
