@@ -8,6 +8,7 @@ use PDO;
 class LoginController
 {
     protected $db;
+    protected $formValues = [];
     protected $errMessage = '';
 
     public function __construct(PDO $db)
@@ -18,6 +19,7 @@ class LoginController
     public function index($response)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $this->prepareUserInput();
             return $this->handlePostRequest($response);
         }
         return $this->handleGetRequest($response);
@@ -30,17 +32,39 @@ class LoginController
 
     private function handlePostRequest($response)
     {
-
+        if ($this->validateUserCredentials()) {
+            return $response->setBody($response->renderView('login', [
+                'confirmation' => 'success',
+                'message' => 'You have successfully logged in'
+            ]));
+        }
+        return $response->setBody($response->renderView('login', [
+            'confirmation' => 'fail',
+            'message' => $this->errMessage,
+            'formValues' => $this->formValues
+        ]));
     }
 
-    private function validateUserCredentials()
+    private function prepareUserInput()
+    {
+        $this->formValues = $this->fetchFormValuesAsArray();
+    }
+
+    private function validateUserCredentials(): bool
     {
         $user = $this->getUser();
         if (!$user) {
-            $this->errMessage = 'There is no user with this email!';
+            $this->errMessage = 'Invalid email or password';
             return false;
         }
 
+        if(!$this->verifyPassword($this->formValues['password'], $user->password))
+        {
+            $this->errMessage = 'Invalid email or password';
+            return false;
+        }
+        $_SESSION['userId'] = $user->id;
+        return true;
     }
 
     private function getUser()
@@ -51,6 +75,18 @@ class LoginController
             return $user;
         }
         return false;
+    }
+
+    private function verifyPassword(string $password, string $hashedPassword): bool {
+        return password_verify($password, $hashedPassword);
+    }
+
+    private function fetchFormValuesAsArray(): array
+    {
+        $values = [];
+        $values['email'] = $_POST['email'];
+        $values['password'] = $_POST['password'];
+        return $values;
     }
 
 }

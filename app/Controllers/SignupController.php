@@ -118,7 +118,8 @@ class SignupController
     private function userExists(): bool
     {
         $email = $this->formValues['email'];
-        if (count(User::findUserByEmail($this->db, $email)) > 0) {
+        $user = User::findUserByEmail($this->db, $email);
+        if ($user) {
             $this->errMessage = 'User with specified email already exists';
             return true;
         }

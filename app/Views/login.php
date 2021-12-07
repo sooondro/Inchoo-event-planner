@@ -1,4 +1,5 @@
-<!-- <div class="container d-flex justify-content-center">
+<h3 class="text-center">Login to your account</h3>
+<div class="container d-flex justify-content-center">
     <?php if ($data && $data['confirmation'] === 'success') : ?>
         <span style="color:green;">
             <?= $data['message'] ?>
@@ -8,8 +9,7 @@
             <?= $data['message'] ?>
         </span>
     <?php endif; ?>
-</div> -->
-<h3 class="text-center">Login to your account</h3>
+</div>
 <div class="container d-flex justify-content-center mt-3">
     <form action="login" method="post" style="width: 30rem;">
         <div class="mb-3">
@@ -18,6 +18,7 @@
                     type="email"
                     class="form-control"
                     id="email" name="email"
+                    value="<?= $data['formValues']['email'] ?>"
                     required
             >
         </div>
@@ -30,7 +31,8 @@
                     id="password"
                     name="password"
                     minlength="6"
-                    required>
+                    required
+            >
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>

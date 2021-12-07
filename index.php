@@ -8,6 +8,8 @@ use App\Controllers\SignupController;
 require_once 'vendor/autoload.php';
 
 
+
+
 $app = new App;
 
 $container = $app->getContainer();
@@ -22,7 +24,7 @@ $container['errorHandler'] = function () {
 $container['config'] = function () {
     return [
         'db_driver' => 'mysql',
-        'db_host' => 'inchoo-event-planner.com',
+        'db_host' => 'event-planner.com',
         'db_name' => 'event-planner',
         'db_user' => 'root',
         'db_password' => 'root'
