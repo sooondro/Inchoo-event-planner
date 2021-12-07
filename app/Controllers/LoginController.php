@@ -10,6 +10,7 @@ class LoginController
     protected $db;
     protected $formValues = [];
     protected $errMessage = '';
+    protected $user;
 
     public function __construct(PDO $db)
     {
@@ -33,10 +34,13 @@ class LoginController
     private function handlePostRequest($response)
     {
         if ($this->validateUserCredentials()) {
-            return $response->setBody($response->renderView('login', [
+            $this->startSessionAndStoreUserId($this->getUser()->id);
+            header('Location: /');
+            die();
+            /*return $response->setBody($response->renderView('login', [
                 'confirmation' => 'success',
                 'message' => 'You have successfully logged in'
-            ]));
+            ]));*/
         }
         return $response->setBody($response->renderView('login', [
             'confirmation' => 'fail',
@@ -63,7 +67,6 @@ class LoginController
             $this->errMessage = 'Invalid email or password';
             return false;
         }
-        $_SESSION['userId'] = $user->id;
         return true;
     }
 
@@ -71,7 +74,7 @@ class LoginController
     {
         $email = $_POST['email'];
         $user = User::findUserByEmail($this->db, $email);
-        if (count($user) > 0) {
+        if ($user) {
             return $user;
         }
         return false;
@@ -87,6 +90,12 @@ class LoginController
         $values['email'] = $_POST['email'];
         $values['password'] = $_POST['password'];
         return $values;
+    }
+
+    private function startSessionAndStoreUserId($id)
+    {
+        session_start();
+        $_SESSION['userId'] = $id;
     }
 
 }
