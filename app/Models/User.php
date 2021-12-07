@@ -43,7 +43,15 @@ class User
 
     }
 
-    public function getPassword() {
-        return $this->password;
-    }
+    public static function findUserById(PDO $db, $id) {
+        $user = $db->prepare("
+            SELECT * FROM users
+            WHERE id = :id
+        ");
+
+        $user->bindParam(':id', $id);
+        $user->execute();
+        $user = $user->fetchAll(PDO::FETCH_CLASS, User::class);
+        return $user[0];
+}
 }
