@@ -1,4 +1,3 @@
-
 <div class="container">
     <?php if (isset($data)) {
         foreach ($data as $event): ?>
