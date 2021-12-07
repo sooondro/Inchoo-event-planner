@@ -1,3 +1,4 @@
+<h3 class="text-center">Create a new account!</h3>
 <div class="container d-flex justify-content-center">
     <?php if ($data && $data['confirmation'] === 'success') : ?>
         <span style="color:green;">
@@ -9,7 +10,7 @@
         </span>
     <?php endif; ?>
 </div>
-<div class="container d-flex justify-content-center">
+<div class="container d-flex justify-content-center mt-3">
     <form action="signup" method="post" style="width: 30rem;">
         <div class="mb-3">
             <label for="email" class="form-label">Email address</label>
@@ -63,11 +64,10 @@
                     minlength="6"
                     required>
         </div>
-       <!-- <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="admin" name="admin" value="true">
-            <label class="form-check-label" for="admin">Admin</label>
-        </div> -->
+        <!-- <div class="mb-3 form-check">
+             <input type="checkbox" class="form-check-input" id="admin" name="admin" value="true">
+             <label class="form-check-label" for="admin">Admin</label>
+         </div> -->
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
-
 </div>

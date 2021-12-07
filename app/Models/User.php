@@ -38,8 +38,12 @@ class User
 
         $user->bindParam(':email', $email);
         $user->execute();
-        return $user->fetchAll(PDO::FETCH_CLASS, User::class);
+        $user = $user->fetchAll(PDO::FETCH_CLASS, User::class);
+        return $user[0];
 
     }
 
+    public function getPassword() {
+        return $this->password;
+    }
 }
