@@ -3,6 +3,7 @@
 use App\App;
 use App\Controllers\HomeController;
 use App\Controllers\LoginController;
+use App\Controllers\LogoutController;
 use App\Controllers\SignupController;
 
 require_once 'vendor/autoload.php';
@@ -45,6 +46,8 @@ $app->get('/', [new HomeController($container->db), 'index']);
 $app->map('/signup', [new SignupController($container->db), 'index'], ['GET', 'POST']);
 
 $app->map('/login', [new LoginController($container->db), 'index'], ['GET', 'POST']);
+
+$app->get('/logout', [LogoutController::class, 'logout']);
 
 $app->get('/test', [new HomeController($container->db), 'test']);
 
