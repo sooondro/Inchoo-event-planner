@@ -15,7 +15,18 @@ class Event
 
     public static function fetchEventById(PDO $db, int $id)
     {
+        $event = $db->prepare('
+           SELECT * FROM event 
+           WHERE id = :id
+        ');
 
+        $event->execute([
+            'id' => $id
+        ]);
+
+        $event->fetchAll(PDO::FETCH_CLASS, Event::class);
+
+        return $event[0];
     }
 
     public static function postNewEvent(PDO $db, array $values)

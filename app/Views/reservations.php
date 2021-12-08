@@ -15,7 +15,7 @@ if (!isset($_SESSION)) {
                             Date: <?= $event->date ?></h6>
                         <p class="card-text"><?= $event->description ?></p>
                         <form action="/reservations" method="post">
-                            <input type="hidden" name="eventId" value="<?= $event->id ?>">
+                            <input type="hidden" name="eventId" value="<?= $event->event_id ?>">
                             <button type="submit">Make a reservation</button>
                         </form>
                     </div>
@@ -24,3 +24,4 @@ if (!isset($_SESSION)) {
         <?php endforeach;
     } ?>
 </div>
+
