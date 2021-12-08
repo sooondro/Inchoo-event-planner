@@ -40,4 +40,8 @@ class AuthController
         }
         return false;
     }
+
+    public function getActiveUserId(){
+        return $this->currentUser->id ?? null;
+    }
 }

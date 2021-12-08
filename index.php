@@ -1,6 +1,7 @@
 <?php
 
 use App\App;
+use App\Controllers\CreateEventController;
 use App\Controllers\HomeController;
 use App\Controllers\LoginController;
 use App\Controllers\LogoutController;
@@ -47,9 +48,10 @@ $app->map('/login', [new LoginController($container->db), 'index'], ['GET', 'POS
 
 $app->get('/logout', [LogoutController::class, 'logout']);
 
+$app->map('/create-event', [new CreateEventController($container->db), 'index'], ['GET', 'POST']);
+
 $app->get('/test', [new HomeController($container->db), 'test']);
 
-$app->get('/create-event', [HomeController::class, 'index']);
 
 
 
