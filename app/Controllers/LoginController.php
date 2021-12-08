@@ -10,7 +10,6 @@ class LoginController extends AbstractController
     protected $db;
     protected $formValues = [];
     protected $errMessage = '';
-    protected $user;
 
     public function __construct(PDO $db)
     {
