@@ -3,6 +3,10 @@
 namespace App\Controllers;
 
 use App\Models\Event;
+use App\Validators\DateTimeValidator;
+use App\Validators\DescriptionValidator;
+use App\Validators\LocationValidator;
+use App\Validators\MaxAttendeesValidator;
 use App\Validators\NameValidator;
 use PDO;
 
@@ -67,9 +71,10 @@ class CreateEventController extends AbstractController
         try {
             if (
                 NameValidator::validate($this->formValues['name'])
-                && SurnameValidator::validate($this->formValues['surname'])
                 && DateTimeValidator::validate($this->formValues['date'])
-
+                && LocationValidator::validate($this->formValues['location'])
+                && MaxAttendeesValidator::validate($this->formValues['max'])
+                && DescriptionValidator::validate($this->formValues['description'])
             ) return true;
         } catch (\Exception $e) {
             $this->errMessage = $e->getMessage();

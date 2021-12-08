@@ -15,6 +15,7 @@
                     class="form-control"
                     id="name"
                     name="name"
+                    value="<?= $data['formValues']['name'] ?? '' ?>"
                     required
             >
         </div>
@@ -25,6 +26,7 @@
                     class="form-control"
                     id="date"
                     name="date"
+                    value="<?= $data['formValues']['date'] ?? '' ?>"
                     required
             >
         </div>
@@ -35,6 +37,7 @@
                     class="form-control"
                     id="location"
                     name="location"
+                    value="<?= $data['formValues']['location'] ?? '' ?>"
                     required
             >
         </div>
@@ -45,6 +48,7 @@
                     class="form-control"
                     id="max"
                     name="max"
+                    value="<?= $data['formValues']['max'] ?? '1' ?>"
                     required>
         </div>
         <div class="mb-3">
@@ -54,6 +58,7 @@
                     id="description"
                     name="description"
                     rows="3"
+                    value="<?= $data['formValues']['description'] ?? '' ?>"
                     required
             ></textarea>
         </div>
