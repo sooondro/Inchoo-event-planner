@@ -1,10 +1,6 @@
 <h3 class="text-center">Create a new account!</h3>
 <div class="container d-flex justify-content-center">
-    <?php if ($data && $data['confirmation'] === 'success') : ?>
-        <span style="color:green;">
-            <?= $data['message'] ?>
-        </span>
-    <?php elseif ($data) : ?>
+    <?php if (isset($data['confirmation'])) : ?>
         <span style="color:red;">
             <?= $data['message'] ?>
         </span>
@@ -18,7 +14,7 @@
                     type="email"
                     class="form-control"
                     id="email" name="email"
-                    value="<?= $data['formValues']['email'] ?>"
+                    value="<?= $data['formValues']['email'] ?? '' ?>"
                     required
             >
         </div>
@@ -29,7 +25,7 @@
                     class="form-control"
                     id="name"
                     name="name"
-                    value="<?= $data['formValues']['name'] ?>"
+                    value="<?= $data['formValues']['name'] ?? '' ?>"
                     required
             >
         </div>
@@ -40,7 +36,7 @@
                     class="form-control"
                     id="surname"
                     name="surname"
-                    value="<?= $data['formValues']['surname'] ?>"
+                    value="<?= $data['formValues']['surname'] ?? ''?>"
                     required
             >
         </div>

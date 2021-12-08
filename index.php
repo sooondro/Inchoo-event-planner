@@ -5,11 +5,9 @@ use App\Controllers\HomeController;
 use App\Controllers\LoginController;
 use App\Controllers\LogoutController;
 use App\Controllers\SignupController;
-
+error_reporting(E_ALL);
+ini_set("display_errors","On");
 require_once 'vendor/autoload.php';
-
-
-
 
 $app = new App;
 
