@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Event;
+use App\Models\Reservation;
 use AuthController;
 use PDO;
 
@@ -25,6 +26,15 @@ class HomeController extends AbstractController
             'isAdmin' => $this->authController->isAdmin(),
             'isLoggedIn' => $this->authController->isLoggedIn()
         ]));
+    }
+
+    public function postReservation($response) {
+        $userId = $_POST['userId'];
+        $eventId = $_POST['eventId'];
+
+        Reservation::postReservation($this->db, $userId, $eventId);
+
+
     }
 
     public function test($response){
