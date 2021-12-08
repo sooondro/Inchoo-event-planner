@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Models\User;
 use PDO;
 
-class LoginController
+class LoginController extends AbstractController
 {
     protected $db;
     protected $formValues = [];
@@ -14,6 +14,7 @@ class LoginController
 
     public function __construct(PDO $db)
     {
+        parent::__construct($db);
         $this->db = $db;
     }
 
@@ -28,12 +29,14 @@ class LoginController
 
     private function handleGetRequest($response)
     {
-        session_start();
-        if (isset($_SESSION['userId'])) {
+        if ($this->authController->isLoggedIn()) {
             header('Location: /');
             die();
         }
-        return $response->setBody($response->renderView('login'));
+        return $response->setBody($response->renderView('login', [
+            'isAdmin' => $this->authController->isAdmin(),
+            'isLoggedIn' => $this->authController->isLoggedIn()
+        ]));
     }
 
     private function handlePostRequest($response)
@@ -42,6 +45,7 @@ class LoginController
             $this->startSessionAndStoreUserId($this->getUser()->id);
             header('Location: /');
             die();
+
             /*return $response->setBody($response->renderView('login', [
                 'confirmation' => 'success',
                 'message' => 'You have successfully logged in'
@@ -50,7 +54,9 @@ class LoginController
         return $response->setBody($response->renderView('login', [
             'confirmation' => 'fail',
             'message' => $this->errMessage,
-            'formValues' => $this->formValues
+            'formValues' => $this->formValues,
+            'isAdmin' => $this->authController->isAdmin(),
+            'isLoggedIn' => $this->authController->isLoggedIn()
         ]));
     }
 
@@ -67,8 +73,7 @@ class LoginController
             return false;
         }
 
-        if(!$this->verifyPassword($this->formValues['password'], $user->password))
-        {
+        if (!$this->verifyPassword($this->formValues['password'], $user->password)) {
             $this->errMessage = 'Invalid email or password';
             return false;
         }
@@ -85,7 +90,8 @@ class LoginController
         return false;
     }
 
-    private function verifyPassword(string $password, string $hashedPassword): bool {
+    private function verifyPassword(string $password, string $hashedPassword): bool
+    {
         return password_verify($password, $hashedPassword);
     }
 
@@ -99,7 +105,9 @@ class LoginController
 
     private function startSessionAndStoreUserId($id)
     {
-        session_start();
+        if (!isset($_SESSION)) {
+            session_start();
+        }
         $_SESSION['userId'] = $id;
     }
 

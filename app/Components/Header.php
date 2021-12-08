@@ -1,7 +1,3 @@
-<?php
-session_start();
-?>
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -31,15 +27,19 @@ session_start();
         </button>
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="/reservations">Reservations</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/create-event">Create Event</a>
-                </li>
+                <?php if ($data['isLoggedIn']) : ?>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/reservations">Reservations</a>
+                    </li>
+                <?php endif; ?>
+                <?php if ($data['isAdmin']) : ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/create-event">Create Event</a>
+                    </li>
+                <?php endif; ?>
             </ul>
             <ul class="navbar-nav">
-                <?php if (!isset($_SESSION['userId'])) : ?>
+                <?php if (!$data['isLoggedIn']) : ?>
                     <li class="nav-item">
                         <a class="nav-link" href="/login">Login</a>
                     </li>

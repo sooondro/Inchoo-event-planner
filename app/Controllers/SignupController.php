@@ -9,7 +9,7 @@ use App\Validators\PasswordValidator;
 use App\Validators\SurnameValidator;
 use PDO;
 
-class SignupController
+class SignupController extends AbstractController
 {
 
     protected $db;
@@ -18,6 +18,7 @@ class SignupController
 
     public function __construct(PDO $db)
     {
+        parent::__construct($db);
         $this->db = $db;
     }
 
@@ -35,26 +36,28 @@ class SignupController
     {
         if ($this->validateUserInput()) {
             User::signUpUser($this->db, $this->formValues);
-            return $response->setBody($response->renderView('signup', [
-                'confirmation' => 'success',
-                'message' => 'You have successfully signed up'
-            ]));
+            header('Location: /login');
+            die();
         }
         return $response->setBody($response->renderView('signup', [
             'confirmation' => 'fail',
             'message' => $this->errMessage,
-            'formValues' => $this->formValues
+            'formValues' => $this->formValues,
+            'isAdmin' => $this->authController->isAdmin(),
+            'isLoggedIn' => $this->authController->isLoggedIn()
         ]));
     }
 
     private function handleGetRequest($response)
     {
-        session_start();
-        if (isset($_SESSION['userId'])) {
+        if ($this->authController->isLoggedIn()) {
             header('Location: /');
             die();
         }
-        return $response->setBody($response->renderView('signup'));
+        return $response->setBody($response->renderView('signup', [
+            'isAdmin' => $this->authController->isAdmin(),
+            'isLoggedIn' => $this->authController->isLoggedIn()
+        ]));
     }
 
     private function prepareUserInput()

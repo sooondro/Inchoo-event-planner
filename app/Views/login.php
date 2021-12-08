@@ -1,10 +1,6 @@
 <h3 class="text-center">Login to your account</h3>
 <div class="container d-flex justify-content-center">
-    <?php if ($data && $data['confirmation'] === 'success') : ?>
-        <span style="color:green;">
-            <?= $data['message'] ?>
-        </span>
-    <?php elseif ($data) : ?>
+    <?php if (isset($data['confirmation'])) : ?>
         <span style="color:red;">
             <?= $data['message'] ?>
         </span>
@@ -18,7 +14,7 @@
                     type="email"
                     class="form-control"
                     id="email" name="email"
-                    value="<?= $data['formValues']['email'] ?>"
+                    value="<?= $data['formValues']['email'] ?? '' ?>"
                     required
             >
         </div>

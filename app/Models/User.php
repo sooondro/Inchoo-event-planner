@@ -27,10 +27,11 @@ class User
             'email' => $values['email'],
             'password' => $values['password'],
         ]);
-            //'admin' => $values['admin'],
+        //'admin' => $values['admin'],
     }
 
-    public static function findUserByEmail(PDO $db, string $email) {
+    public static function findUserByEmail(PDO $db, string $email)
+    {
         $user = $db->prepare("
             SELECT * FROM users
             WHERE email = :email
@@ -39,11 +40,11 @@ class User
         $user->bindParam(':email', $email);
         $user->execute();
         $user = $user->fetchAll(PDO::FETCH_CLASS, User::class);
-        return $user[0];
-
+        return $user[0] ?? false;
     }
 
-    public static function findUserById(PDO $db, $id) {
+    public static function findUserById(PDO $db, $id)
+    {
         $user = $db->prepare("
             SELECT * FROM users
             WHERE id = :id
@@ -53,5 +54,9 @@ class User
         $user->execute();
         $user = $user->fetchAll(PDO::FETCH_CLASS, User::class);
         return $user[0];
-}
+    }
+
+    public function getAdmin() {
+        return $this->admin;
+    }
 }

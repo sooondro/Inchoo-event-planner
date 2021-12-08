@@ -1,6 +1,6 @@
 <div class="container">
     <?php if (isset($data)) {
-        foreach ($data as $event): ?>
+        foreach ($data['events'] as $event): ?>
             <div class="row mb-3">
                 <div class="card mx-auto" style="width: 18rem">
                     <div class="card-body">

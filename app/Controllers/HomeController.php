@@ -3,23 +3,28 @@
 namespace App\Controllers;
 
 use App\Models\Event;
+use AuthController;
 use PDO;
 
-class HomeController
+class HomeController extends AbstractController
 {
 
     protected $db;
 
     public function __construct(PDO $db)
     {
+        parent::__construct($db);
         $this->db = $db;
     }
 
     public function index($response)
     {
         $events = Event::fetchAllEvents($this->db);
-
-        return $response->setBody($response->renderView('index', $events));
+        return $response->setBody($response->renderView('index', [
+            'events' => $events,
+            'isAdmin' => $this->authController->isAdmin(),
+            'isLoggedIn' => $this->authController->isLoggedIn()
+        ]));
     }
 
     public function test($response){
