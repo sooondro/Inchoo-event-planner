@@ -18,6 +18,8 @@ class Reservation
             'userId' => $userId,
             "eventId" => $eventId
         ]);
+
+        Event::incrementEventCount($db, $eventId);
     }
 
     public static function fetchAllUserReservations(PDO $db, $userId)
@@ -34,6 +36,22 @@ class Reservation
         return $query->fetchAll(PDO::FETCH_CLASS, Reservation::class);
     }
 
+    public static function deleteUserReservation(PDO $db, $userId, $eventId)
+    {
+
+        $query = $db->prepare("
+            DELETE FROM reservations
+            WHERE user_id = :userId AND event_id = :eventId
+        ");
+
+        $query->execute([
+            'userId' => $userId,
+            'eventId' => $eventId
+        ]);
+
+        Event::decrementEventCount($db, $eventId);
+
+    }
 
 
 }

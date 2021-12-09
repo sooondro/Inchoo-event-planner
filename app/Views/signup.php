@@ -58,7 +58,8 @@
                     id="repeated-password"
                     name="repeated-password"
                     minlength="6"
-                    required>
+                    required
+            >
         </div>
         <!-- <div class="mb-3 form-check">
              <input type="checkbox" class="form-check-input" id="admin" name="admin" value="true">

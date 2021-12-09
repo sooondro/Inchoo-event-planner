@@ -5,6 +5,7 @@ use App\Controllers\CreateEventController;
 use App\Controllers\HomeController;
 use App\Controllers\LoginController;
 use App\Controllers\LogoutController;
+use App\Controllers\ReservationController;
 use App\Controllers\SignupController;
 error_reporting(E_ALL);
 ini_set("display_errors","On");
@@ -49,6 +50,10 @@ $app->map('/login', [new LoginController($container->db), 'index'], ['GET', 'POS
 $app->get('/logout', [LogoutController::class, 'logout']);
 
 $app->map('/create-event', [new CreateEventController($container->db), 'index'], ['GET', 'POST']);
+
+$app->map('/reservations', [new ReservationController($container->db), 'index'], ['GET', 'POST']);
+
+$app->post('/delete-reservation', [new ReservationController($container->db), 'delete']);
 
 $app->get('/test', [new HomeController($container->db), 'test']);
 
