@@ -35,11 +35,12 @@ class ReservationController extends AbstractController
             die();
         }
         $eventId = $_POST['eventId'];
+        $location = $_POST['location'];
         $userId = $this->authController->getActiveUserId();
 
         Reservation::deleteUserReservation($this->db, $userId, $eventId);
 
-        header('Location: /reservations');
+        header('Location: ' . $location);
         die();
     }
 
@@ -74,6 +75,7 @@ class ReservationController extends AbstractController
     private function handlePostRequest($response)
     {
         $eventId = $_POST['eventId'];
+        $location = $_POST['location'];
         if (!$this->authController->isLoggedIn()) {
             header('Location: /');
             die();
@@ -85,8 +87,6 @@ class ReservationController extends AbstractController
                 $this->authController->getActiveUserId(),
                 $eventId
             );
-            header('Location: /reservations');
-            die();
         }
 
         header('Location: /');

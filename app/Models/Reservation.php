@@ -53,6 +53,25 @@ class Reservation
 
     }
 
+    public static function fetchAllUserReservationIdsAsArray(PDO $db, $userId): array
+    {
+        $query = $db->prepare("
+            SELECT event_id FROM reservations
+            WHERE user_id = :userId
+        ");
+
+        $query->execute([
+            "userId" => $userId
+        ]);
+
+        $assocArray = $query->fetchAll(PDO::FETCH_ASSOC);
+        $idArray = [];
+        foreach ($assocArray as $item) {
+            $idArray[] = $item['event_id'];
+        }
+        return $idArray;
+    }
+
 
 }
 

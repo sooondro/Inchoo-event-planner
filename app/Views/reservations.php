@@ -16,6 +16,7 @@ if (!isset($_SESSION)) {
                         <p class="card-text"><?= $event->description ?></p>
                         <form action="/delete-reservation" method="post" >
                             <input type="hidden" name="eventId" value="<?= $event->id ?>">
+                            <input type="hidden" name="location" value="/reservations">
                             <button type="submit" class="btn btn-dark">Delete a reservation</button>
                         </form>
                     </div>

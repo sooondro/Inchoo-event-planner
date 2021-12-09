@@ -23,25 +23,22 @@ class HomeController extends AbstractController
         $events = Event::fetchAllEvents($this->db);
         return $response->setBody($response->renderView('index', [
             'events' => $events,
+            'reservedEvents' => Reservation::fetchAllUserReservationIdsAsArray(
+                $this->db,
+                $this->authController->getActiveUserId()
+            ),
             'isAdmin' => $this->authController->isAdmin(),
             'isLoggedIn' => $this->authController->isLoggedIn()
         ]));
     }
 
-    public function postReservation($response) {
-        $userId = $_POST['userId'];
-        $eventId = $_POST['eventId'];
-
-
-
-
-    }
-
-    public function test($response){
+    public function test($response)
+    {
         return $response->setBody('test');
     }
 
-    public function fetchAllEvents() {
+    public function fetchAllEvents()
+    {
         return $this->db->query("SELECT * FROM events")
             ->fetchAll(PDO::FETCH_CLASS, Event::class);
     }
