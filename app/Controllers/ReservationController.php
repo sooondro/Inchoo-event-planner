@@ -29,6 +29,20 @@ class ReservationController extends AbstractController
         return $this->handleGetRequest($response);
     }
 
+    public function delete($response) {
+        if (!$this->authController->isLoggedIn()) {
+            header('Location: /');
+            die();
+        }
+        $eventId = $_POST['eventId'];
+        $userId = $this->authController->getActiveUserId();
+
+        Reservation::deleteUserReservation($this->db, $userId, $eventId);
+
+        header('Location: /reservations');
+        die();
+    }
+
     private function handleGetRequest($response)
     {
         return $response->setBody($response->renderView('reservations', [
@@ -48,13 +62,34 @@ class ReservationController extends AbstractController
     {
         $events = [];
         $reservations = $this->fetchAllUserReservations();
-        if(count($reservations) > 0) {
+        if (count($reservations) > 0) {
             foreach ($reservations as $reservation) {
-                $event = Event::fetchEventById($this->db, $reservation->eventId);
-                var_dump($event);
+                $event = Event::fetchEventById($this->db, $reservation->event_id);
                 $events[] = $event;
             }
         }
         return $events;
+    }
+
+    private function handlePostRequest($response)
+    {
+        $eventId = $_POST['eventId'];
+        if (!$this->authController->isLoggedIn()) {
+            header('Location: /');
+            die();
+        }
+
+        if (Event::isEventReservable($this->db, $eventId)) {
+            Reservation::postReservation(
+                $this->db,
+                $this->authController->getActiveUserId(),
+                $eventId
+            );
+            header('Location: /reservations');
+            die();
+        }
+
+        header('Location: /');
+        die();
     }
 }

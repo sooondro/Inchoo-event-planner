@@ -15,16 +15,15 @@ class Event
 
     public static function fetchEventById(PDO $db, int $id)
     {
-        $event = $db->prepare('
-           SELECT * FROM event 
+        $event = $db->prepare("
+           SELECT * FROM events 
            WHERE id = :id
-        ');
+        ");
 
-        $event->execute([
-            'id' => $id
-        ]);
+        $event->bindParam(':id', $id);
+        $event->execute();
 
-        $event->fetchAll(PDO::FETCH_CLASS, Event::class);
+        $event = $event->fetchAll(PDO::FETCH_CLASS, Event::class);
 
         return $event[0];
     }
@@ -44,5 +43,48 @@ class Event
             'description' => $values['description'],
             'adminId' => $values['adminId'],
         ]);
+    }
+
+    public static function isEventReservable(PDO $db, $id): bool
+    {
+        $event = self::fetchEventById($db, $id);
+        if ($event->count >= $event->max_attendees) return false;
+        return true;
+    }
+
+    public static function incrementEventCount(PDO $db, $id) {
+        $event = self::fetchEventById($db, $id);
+        $newCount = $event->count + 1;
+
+        $query = $db->prepare('
+            UPDATE events
+            SET count = :count 
+            WHERE id = :id
+        ');
+
+
+        $query->execute([
+            'id' => $id,
+            'count' => $newCount
+        ]);
+
+    }
+
+    public static function decrementEventCount(PDO $db, $id) {
+        $event = self::fetchEventById($db, $id);
+        $newCount = $event->count - 1;
+
+        $query = $db->prepare('
+            UPDATE events
+            SET count = :count 
+            WHERE id = :id
+        ');
+
+
+        $query->execute([
+            'id' => $id,
+            'count' => $newCount
+        ]);
+
     }
 }

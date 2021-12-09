@@ -14,9 +14,9 @@ if (!isset($_SESSION)) {
                         <h6 class="card-subtitle mb-2 text-muted">Max: <?= $event->max_attendees ?> |
                             Date: <?= $event->date ?></h6>
                         <p class="card-text"><?= $event->description ?></p>
-                        <form action="/reservations" method="post">
-                            <input type="hidden" name="eventId" value="<?= $event->event_id ?>">
-                            <button type="submit">Make a reservation</button>
+                        <form action="/delete-reservation" method="post" >
+                            <input type="hidden" name="eventId" value="<?= $event->id ?>">
+                            <button type="submit" class="btn btn-dark">Delete a reservation</button>
                         </form>
                     </div>
                 </div>

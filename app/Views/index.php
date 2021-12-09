@@ -16,7 +16,18 @@ if (!isset($_SESSION)) {
                         <p class="card-text"><?= $event->description ?></p>
                         <form action="/reservations" method="post">
                             <input type="hidden" name="eventId" value="<?= $event->id ?>">
-                            <button type="submit">Make a reservation</button>
+                            <?php if ($data['isLoggedIn']) : ?>
+                                <?php if ($event->count < $event->max_attendees) : ?>
+                                    <button type="submit" class="btn btn-dark d-flex mx-auto">Make a reservation
+                                    </button>
+                                <?php else: ?>
+                                    <button type="button" class="btn btn-light d-flex mx-auto" disabled>Event not
+                                        reservable
+                                    </button>
+                                <?php endif; ?>
+                            <?php else: ?>
+                                <p class="card-text">Log in to make a reservation</p>
+                            <?php endif; ?>
                         </form>
                     </div>
                 </div>

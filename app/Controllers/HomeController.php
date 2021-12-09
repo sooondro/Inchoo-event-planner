@@ -32,7 +32,7 @@ class HomeController extends AbstractController
         $userId = $_POST['userId'];
         $eventId = $_POST['eventId'];
 
-        Reservation::postReservation($this->db, $userId, $eventId);
+
 
 
     }

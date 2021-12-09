@@ -46,6 +46,10 @@ class CreateEventController extends AbstractController
 
     private function handlePostRequest($response)
     {
+        if (!$this->authController->isAdmin()) {
+            header('Location: /');
+            die();
+        }
         if ($this->validateUserInput()) {
             Event::postNewEvent($this->db, $this->formValues);
             header('Location: /');
