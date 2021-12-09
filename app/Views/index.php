@@ -14,21 +14,29 @@ if (!isset($_SESSION)) {
                         <h6 class="card-subtitle mb-2 text-muted">Max: <?= $event->max_attendees ?> |
                             Date: <?= $event->date ?></h6>
                         <p class="card-text"><?= $event->description ?></p>
-                        <form action="/reservations" method="post">
-                            <input type="hidden" name="eventId" value="<?= $event->id ?>">
-                            <?php if ($data['isLoggedIn']) : ?>
-                                <?php if ($event->count < $event->max_attendees) : ?>
+                        <?php if ($data['isLoggedIn']) : ?>
+                            <?php if (in_array($event->id, $data['reservedEvents'])) : ?>
+                                <form action="/delete-reservation" method="post">
+                                    <input type="hidden" name="eventId" value="<?= $event->id ?>">
+                                    <input type="hidden" name="location" value="/">
+                                    <button type="submit" class="btn btn-secondary d-flex mx-auto">Delete a
+                                        reservation
+                                    </button>
+                                </form>
+                            <?php elseif ($event->count < $event->max_attendees): ?>
+                                <form action="/reservations" method="post">
+                                    <input type="hidden" name="eventId" value="<?= $event->id ?>">
                                     <button type="submit" class="btn btn-dark d-flex mx-auto">Make a reservation
                                     </button>
-                                <?php else: ?>
-                                    <button type="button" class="btn btn-light d-flex mx-auto" disabled>Event not
-                                        reservable
-                                    </button>
-                                <?php endif; ?>
+                                </form>
                             <?php else: ?>
-                                <p class="card-text">Log in to make a reservation</p>
+                                <button type="button" class="btn btn-light d-flex mx-auto" disabled>Event not
+                                    reservable
+                                </button>
                             <?php endif; ?>
-                        </form>
+                        <?php else: ?>
+                            <p class="card-text">Log in to make a reservation</p>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
