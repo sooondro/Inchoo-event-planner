@@ -35,8 +35,9 @@ class SignupController extends AbstractController
     private function handlePostRequest($response)
     {
         if ($this->validateUserInput()) {
-            User::signUpUser($this->db, $this->formValues);
-            header('Location: /login');
+            $id = User::signUpUser($this->db, $this->formValues);
+            $this->startSessionAndStoreUserId($id);
+            header('Location: /');
             die();
         }
         return $response->setBody($response->renderView('signup', [
@@ -87,7 +88,6 @@ class SignupController extends AbstractController
         $values['surname'] = $_POST['surname'];
         $values['email'] = $_POST['email'];
         $values['password'] = $this->hashPassword();
-        //$values['admin'] = $this->validateAdminCheckbox();
         return $values;
     }
 
@@ -134,39 +134,12 @@ class SignupController extends AbstractController
         return false;
     }
 
-    /*    public function validateName(): bool
-        {
-            $name = $this->formValues['name'];
-            if (empty($name)) {
-                $this->errMessage = 'Name cannot be empty';
-                return false;
-            }
-            if (!preg_match("/^[a-zA-Z-' ]*$/", $name)) {
-                $this->errMessage = "Surname has to contain letters or ' or -";
-                return false;
-            }
-            return true;
+    private function startSessionAndStoreUserId($id)
+    {
+        if (!isset($_SESSION)) {
+            session_start();
         }
-
-        public function validateSurname(): bool
-        {
-            $name = $this->formValues['name'];
-
-
-            return true;
-        }*/
-
-    /*    public function validateEmail(): bool
-        {
-            $email = $this->formValues['email'];
-            return true;
-
-        }*/
-    /*    public function validateAdminCheckbox(): bool
-        {
-            if (isset($_POST['admin']) && $_POST['admin'] == 1) return 1;
-            return 0;
-        }
-    */
+        $_SESSION['userId'] = $id;
+    }
 
 }
