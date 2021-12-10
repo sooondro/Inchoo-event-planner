@@ -48,19 +48,25 @@ class Event
     public static function updateAdminEvent(PDO $db, array $values)
     {
         $query = $db->prepare("
-            UPDATE 'events'
-            SET 'name'=:name,'date'=:date,'location'=:location,'max_attendees'=:max,'description'=:description,
-            WHERE 'id'=:eventId
+            UPDATE events
+            SET 
+                name=:name,
+                date=:date,
+                location=:location,
+                max_attendees=:max,
+                description=:description
+            WHERE id=:eventId AND admin_id=:adminId
         ");
 
-        $query->bindParam(':name', $values['name']);
-        $query->bindParam(':date', $values['date']);
-        $query->bindParam(':location', $values['location']);
-        $query->bindParam(':max', $values['max']);
-        $query->bindParam(':description', $values['description']);
-        $query->bindParam(':eventId', $values['eventId'], PDO::PARAM_INT);
-        $query->execute();
-
+        $query->execute([
+            'name' => $values['name'],
+            'date' => $values['date'],
+            'location' => $values['location'],
+            'max' => $values['max'],
+            'description' => $values['description'],
+            'eventId' => $values['eventId'],
+            'adminId' => $values['adminId'],
+        ]);
     }
 
     public static function deleteEventById(PDO $db, $id)
