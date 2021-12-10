@@ -45,7 +45,26 @@ class Event
         ]);
     }
 
-    public static function deleteEventById(PDO $db, $id) {
+    public static function updateAdminEvent(PDO $db, array $values)
+    {
+        $query = $db->prepare("
+            UPDATE 'events'
+            SET 'name'=:name,'date'=:date,'location'=:location,'max_attendees'=:max,'description'=:description,
+            WHERE 'id'=:eventId
+        ");
+
+        $query->bindParam(':name', $values['name']);
+        $query->bindParam(':date', $values['date']);
+        $query->bindParam(':location', $values['location']);
+        $query->bindParam(':max', $values['max']);
+        $query->bindParam(':description', $values['description']);
+        $query->bindParam(':eventId', $values['eventId'], PDO::PARAM_INT);
+        $query->execute();
+
+    }
+
+    public static function deleteEventById(PDO $db, $id)
+    {
         $query = $db->prepare("
             DELETE FROM events
             WHERE id = :id
@@ -75,7 +94,6 @@ class Event
         return $idArray;
     }
 
-
     public static function isEventReservable(PDO $db, $id): bool
     {
         $event = self::fetchEventById($db, $id);
@@ -101,7 +119,8 @@ class Event
 
     }
 
-    public static function decrementEventCount(PDO $db, $id) {
+    public static function decrementEventCount(PDO $db, $id)
+    {
         $event = self::fetchEventById($db, $id);
         $newCount = $event->count - 1;
 

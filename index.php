@@ -53,7 +53,7 @@ $app->map('/create-event', [new EventController($container->db), 'index'], ['GET
 
 $app->post('/delete-event', [new EventController($container->db), 'delete']);
 
-$app->post('/edit-event', [new EventController($container->db), 'edit']);
+$app->map('/edit-event', [new EventController($container->db), 'edit'], ['GET', 'POST']);
 
 $app->map('/reservations', [new ReservationController($container->db), 'index'], ['GET', 'POST']);
 

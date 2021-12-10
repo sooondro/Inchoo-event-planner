@@ -22,9 +22,8 @@ if (!isset($_SESSION)) {
                                     <button type="submit" class="btn btn-outline-danger d-flex mx-auto">Delete event
                                     </button>
                                 </form>
-                                <form action="/edit-event" method="post">
+                                <form action="/edit-event" method="get">
                                     <input type="hidden" name="eventId" value="<?= $event->id ?>">
-                                    <input type="hidden" name="location" value="/">
                                     <button type="submit" class="btn btn-outline-secondary d-flex mx-auto">Edit event
                                     </button>
                                 </form>
