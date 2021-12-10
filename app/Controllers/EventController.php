@@ -10,7 +10,7 @@ use App\Validators\MaxAttendeesValidator;
 use App\Validators\NameValidator;
 use PDO;
 
-class CreateEventController extends AbstractController
+class EventController extends AbstractController
 {
 
     protected $db;
@@ -62,6 +62,19 @@ class CreateEventController extends AbstractController
             'isAdmin' => $this->authController->isAdmin(),
             'isLoggedIn' => $this->authController->isLoggedIn()
         ]));
+    }
+
+    public function delete($response) {
+        if (!$this->authController->isAdmin()) {
+            header('Location: /');
+            die();
+        }
+
+        $eventId = $_POST['eventId'];
+
+        Event::deleteEventById($this->db ,$eventId);
+        header('Location: ' . $_POST['location']);
+        die();
     }
 
     private function prepareUserInput()

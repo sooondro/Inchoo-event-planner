@@ -15,11 +15,18 @@ if (!isset($_SESSION)) {
                             Date: <?= $event->date ?></h6>
                         <p class="card-text"><?= $event->description ?></p>
                         <?php if ($data['isLoggedIn']) : ?>
-                            <?php if (in_array($event->id, $data['reservedEvents'])) : ?>
+                            <?php if(in_array($event->id, $data['adminEvents']))  : ?>
+                                <form action="/delete-event" method="post">
+                                    <input type="hidden" name="eventId" value="<?= $event->id ?>">
+                                    <input type="hidden" name="location" value="/">
+                                    <button type="submit" class="btn btn-outline-danger d-flex mx-auto">Delete event
+                                    </button>
+                                </form>
+                            <?php elseif (in_array($event->id, $data['reservedEvents'])): ?>
                                 <form action="/delete-reservation" method="post">
                                     <input type="hidden" name="eventId" value="<?= $event->id ?>">
                                     <input type="hidden" name="location" value="/">
-                                    <button type="submit" class="btn btn-secondary d-flex mx-auto">Delete a
+                                    <button type="submit" class="btn btn-outline-danger d-flex mx-auto">Delete a
                                         reservation
                                     </button>
                                 </form>

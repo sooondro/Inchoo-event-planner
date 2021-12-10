@@ -45,6 +45,37 @@ class Event
         ]);
     }
 
+    public static function deleteEventById(PDO $db, $id) {
+        $query = $db->prepare("
+            DELETE FROM events
+            WHERE id = :id
+        ");
+
+        $query->execute([
+            'id' => $id
+        ]);
+    }
+
+    public static function fetchAllAdminEventIdsAsArray(PDO $db, $adminId): array
+    {
+        $query = $db->prepare("
+            SELECT id FROM events
+            WHERE admin_id = :id
+        ");
+
+        $query->execute([
+            'id' => $adminId
+        ]);
+
+        $assocArray = $query->fetchAll(PDO::FETCH_ASSOC);
+        $idArray = [];
+        foreach ($assocArray as $event) {
+            $idArray[] = $event['id'];
+        }
+        return $idArray;
+    }
+
+
     public static function isEventReservable(PDO $db, $id): bool
     {
         $event = self::fetchEventById($db, $id);
@@ -52,7 +83,8 @@ class Event
         return true;
     }
 
-    public static function incrementEventCount(PDO $db, $id) {
+    public static function incrementEventCount(PDO $db, $id)
+    {
         $event = self::fetchEventById($db, $id);
         $newCount = $event->count + 1;
 
@@ -61,7 +93,6 @@ class Event
             SET count = :count 
             WHERE id = :id
         ');
-
 
         $query->execute([
             'id' => $id,
@@ -79,7 +110,6 @@ class Event
             SET count = :count 
             WHERE id = :id
         ');
-
 
         $query->execute([
             'id' => $id,
