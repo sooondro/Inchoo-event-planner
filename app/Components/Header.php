@@ -36,6 +36,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/create-event">Create Event</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/create-admin">Create Admin User</a>
+                    </li>
                 <?php endif; ?>
             </ul>
             <ul class="navbar-nav">

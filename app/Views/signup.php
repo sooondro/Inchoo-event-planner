@@ -7,7 +7,7 @@
     <?php endif; ?>
 </div>
 <div class="container d-flex justify-content-center mt-3">
-    <form action="signup" method="post" style="width: 30rem;">
+    <form action="<?= $data['location'] ?>" method="post" style="width: 30rem;">
         <div class="mb-3">
             <label for="email" class="form-label">Email address</label>
             <input
@@ -61,10 +61,6 @@
                     required
             >
         </div>
-        <!-- <div class="mb-3 form-check">
-             <input type="checkbox" class="form-check-input" id="admin" name="admin" value="true">
-             <label class="form-check-label" for="admin">Admin</label>
-         </div> -->
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>

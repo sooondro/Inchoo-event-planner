@@ -25,11 +25,53 @@ class SignupController extends AbstractController
 
     public function index($response)
     {
+        if ($this->authController->isLoggedIn()) {
+            header('Location: /');
+            die();
+        }
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $this->prepareUserInput();
             return $this->handlePostRequest($response);
         }
         return $this->handleGetRequest($response);
+    }
+
+    public function createAdmin($response) {
+        if (!$this->authController->isAdmin()) {
+            header('Location: /');
+            die();
+        }
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $this->prepareUserInput();
+            return $this->handlePostRequestCreateAdmin($response);
+        }
+        return $this->handleGetRequest($response);
+    }
+
+    private function handleGetRequest($response)
+    {
+        return $response->setBody($response->renderView('signup', [
+            'location' => $this->authController->isAdmin() ? '/create-admin' : '/signup',
+            'isAdmin' => $this->authController->isAdmin(),
+            'isLoggedIn' => $this->authController->isLoggedIn()
+        ]));
+    }
+    private function handlePostRequestCreateAdmin($response)
+    {
+        if ($this->validateUserInput()) {
+            $id =User::signUpAdminUser($this->db, $this->formValues);
+            header('Location: /');
+            die();
+        }
+        return $response->setBody($response->renderView('signup', [
+            'location' => '/create-admin',
+            'confirmation' => 'fail',
+            'message' => $this->errMessage,
+            'formValues' => $this->formValues,
+            'isAdmin' => $this->authController->isAdmin(),
+            'isLoggedIn' => $this->authController->isLoggedIn()
+        ]));
     }
 
     private function handlePostRequest($response)
@@ -41,6 +83,7 @@ class SignupController extends AbstractController
             die();
         }
         return $response->setBody($response->renderView('signup', [
+            'location' => '/signup',
             'confirmation' => 'fail',
             'message' => $this->errMessage,
             'formValues' => $this->formValues,
@@ -49,17 +92,6 @@ class SignupController extends AbstractController
         ]));
     }
 
-    private function handleGetRequest($response)
-    {
-        if ($this->authController->isLoggedIn()) {
-            header('Location: /');
-            die();
-        }
-        return $response->setBody($response->renderView('signup', [
-            'isAdmin' => $this->authController->isAdmin(),
-            'isLoggedIn' => $this->authController->isLoggedIn()
-        ]));
-    }
 
     private function prepareUserInput()
     {
