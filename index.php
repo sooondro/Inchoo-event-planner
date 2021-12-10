@@ -45,6 +45,8 @@ $app->get('/', [new HomeController($container->db), 'index']);
 
 $app->map('/signup', [new SignupController($container->db), 'index'], ['GET', 'POST']);
 
+$app->map('/create-admin', [new SignupController($container->db), 'createAdmin'], ['GET', 'POST']);
+
 $app->map('/login', [new LoginController($container->db), 'index'], ['GET', 'POST']);
 
 $app->get('/logout', [LogoutController::class, 'logout']);
@@ -60,8 +62,5 @@ $app->map('/reservations', [new ReservationController($container->db), 'index'],
 $app->post('/delete-reservation', [new ReservationController($container->db), 'delete']);
 
 $app->get('/test', [new HomeController($container->db), 'test']);
-
-
-
 
 $app->run();

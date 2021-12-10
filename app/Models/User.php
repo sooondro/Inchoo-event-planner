@@ -23,6 +23,22 @@ class User
         return $db->lastInsertId();
     }
 
+    public static function signUpAdminUser(PDO $db, array $values)
+    {
+        $user = $db->prepare("
+            INSERT INTO users (name, surname, email, password, admin)
+            VALUES (:name, :surname, :email, :password, 1)
+        ");
+
+        $user->execute([
+            'name' => $values['name'],
+            'surname' => $values['surname'],
+            'email' => $values['email'],
+            'password' => $values['password'],
+        ]);
+        return $db->lastInsertId();
+    }
+
     public static function findUserByEmail(PDO $db, string $email)
     {
         $user = $db->prepare("
