@@ -8,6 +8,7 @@ use App\Validators\DescriptionValidator;
 use App\Validators\LocationValidator;
 use App\Validators\MaxAttendeesValidator;
 use App\Validators\NameValidator;
+use DateTime;
 use PDO;
 
 class EventController extends AbstractController
@@ -30,6 +31,34 @@ class EventController extends AbstractController
             return $this->handlePostRequest($response);
         }
         return $this->handleGetRequest($response);
+    }
+
+    public function delete($response) {
+        if (!$this->authController->isAdmin()) {
+            header('Location: /');
+            die();
+        }
+
+        $eventId = $_POST['eventId'];
+
+        Event::deleteEventById($this->db ,$eventId);
+        header('Location: ' . $_POST['location']);
+        die();
+    }
+
+    public function edit($response) {
+        if (!$this->authController->isAdmin()) {
+            header('Location: /');
+            die();
+        }
+        $eventId = $_POST['eventId'];
+        $event = Event::fetchEventById($this->db, $eventId);
+        $this->setFormValuesFromFetchedEvent($event);
+        return $response->setBody($response->renderView('create-event', [
+            'formValues' => $this->formValues,
+            'isAdmin' => $this->authController->isAdmin(),
+            'isLoggedIn' => $this->authController->isLoggedIn()
+        ]));
     }
 
     private function handleGetRequest($response)
@@ -62,19 +91,6 @@ class EventController extends AbstractController
             'isAdmin' => $this->authController->isAdmin(),
             'isLoggedIn' => $this->authController->isLoggedIn()
         ]));
-    }
-
-    public function delete($response) {
-        if (!$this->authController->isAdmin()) {
-            header('Location: /');
-            die();
-        }
-
-        $eventId = $_POST['eventId'];
-
-        Event::deleteEventById($this->db ,$eventId);
-        header('Location: ' . $_POST['location']);
-        die();
     }
 
     private function prepareUserInput()
@@ -118,5 +134,11 @@ class EventController extends AbstractController
         $this->formValues['description'] = trim($this->formValues['description']);
     }
 
-
+    private function setFormValuesFromFetchedEvent($event){
+        $this->formValues['name'] = $event->name;
+        $this->formValues['location'] = $event->location;
+        $this->formValues['max'] = $event->max_attendees;
+        $this->formValues['description'] = $event->description;
+        $this->formValues['date'] = date('Y-m-d\TH:i', strtotime($event->date));
+    }
 }

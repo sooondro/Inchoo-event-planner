@@ -58,9 +58,8 @@
                     id="description"
                     name="description"
                     rows="3"
-                    value="<?= $data['formValues']['description'] ?? '' ?>"
                     required
-            ></textarea>
+            ><?= $data['formValues']['description'] ?? '' ?></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
