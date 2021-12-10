@@ -1,7 +1,7 @@
 <?php
 
 use App\App;
-use App\Controllers\CreateEventController;
+use App\Controllers\EventController;
 use App\Controllers\HomeController;
 use App\Controllers\LoginController;
 use App\Controllers\LogoutController;
@@ -49,11 +49,13 @@ $app->map('/login', [new LoginController($container->db), 'index'], ['GET', 'POS
 
 $app->get('/logout', [LogoutController::class, 'logout']);
 
-$app->map('/create-event', [new CreateEventController($container->db), 'index'], ['GET', 'POST']);
+$app->map('/create-event', [new EventController($container->db), 'index'], ['GET', 'POST']);
 
 $app->map('/reservations', [new ReservationController($container->db), 'index'], ['GET', 'POST']);
 
 $app->post('/delete-reservation', [new ReservationController($container->db), 'delete']);
+
+$app->post('/delete-event', [new EventController($container->db), 'delete']);
 
 $app->get('/test', [new HomeController($container->db), 'test']);
 
