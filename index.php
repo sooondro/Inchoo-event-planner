@@ -51,11 +51,13 @@ $app->get('/logout', [LogoutController::class, 'logout']);
 
 $app->map('/create-event', [new EventController($container->db), 'index'], ['GET', 'POST']);
 
+$app->post('/delete-event', [new EventController($container->db), 'delete']);
+
+$app->map('/edit-event', [new EventController($container->db), 'edit'], ['GET', 'POST']);
+
 $app->map('/reservations', [new ReservationController($container->db), 'index'], ['GET', 'POST']);
 
 $app->post('/delete-reservation', [new ReservationController($container->db), 'delete']);
-
-$app->post('/delete-event', [new EventController($container->db), 'delete']);
 
 $app->get('/test', [new HomeController($container->db), 'test']);
 
