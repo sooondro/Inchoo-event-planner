@@ -17,6 +17,11 @@ class HomeController extends AbstractController
         $this->db = $db;
     }
 
+    /**
+     * Serves as a handler function for '/' uri, returns hoepage view
+     * @param $response
+     * @return mixed*
+     */
     public function index($response)
     {
         $events = Event::fetchAllEvents($this->db);
@@ -29,7 +34,11 @@ class HomeController extends AbstractController
         ]));
     }
 
-
+    /**
+     * Fetches all events created by currently logged in admin.
+     * If admin has no events or logged in user is not admin, returns an empty array
+     * @return array
+     */
     function fetchAllAdminEventIds(): array {
         if (!$this->authController->isAdmin()) {
             return [];
@@ -38,6 +47,11 @@ class HomeController extends AbstractController
         return Event::fetchAllAdminEventIdsAsArray($this->db, $adminId);
     }
 
+
+    /**
+     * Fetches an array of event ids reserved by currently logged in user
+     * @return array
+     */
     function fetchAllUserReservationIdsAsArray(): array {
         return Reservation::fetchAllUserReservationIdsAsArray(
             $this->db,

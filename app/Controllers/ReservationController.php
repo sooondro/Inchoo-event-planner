@@ -17,6 +17,13 @@ class ReservationController extends AbstractController
         $this->db = $db;
     }
 
+    /**
+     * Serves as handle function for 'reservations' uri
+     * If no user is logged in, redirects to homepage
+     * Checks if the request method is POST or GET and calls adequate function
+     * @param $response
+     * @return void
+     */
     public function index($response)
     {
         if (!$this->authController->isLoggedIn()) {
@@ -29,6 +36,13 @@ class ReservationController extends AbstractController
         return $this->handleGetRequest($response);
     }
 
+    /**
+     * Serves as handle function for '/delete-reservation' uri
+     * checks if user is logged in, if not, redirects to homepage
+     * After deleting reservation, redirects back to the page from which the request was sent
+     * @param $response
+     * @return void
+     */
     public function delete($response) {
         if (!$this->authController->isLoggedIn()) {
             header('Location: /');
@@ -44,6 +58,12 @@ class ReservationController extends AbstractController
         die();
     }
 
+    /**
+     * GET request handle function
+     * Renders reservation page
+     * @param $response
+     * @return mixed
+     */
     private function handleGetRequest($response)
     {
         return $response->setBody($response->renderView('reservations', [
@@ -53,12 +73,20 @@ class ReservationController extends AbstractController
         ]));
     }
 
+    /**
+     * Fetches all current user reservations as array
+     * @return array|false
+     */
     private function fetchAllUserReservations()
     {
         $userId = $this->authController->getActiveUserId();
         return Reservation::fetchAllUserReservations($this->db, $userId);
     }
 
+    /**
+     * Fetches all events reserved by logged in user
+     * @return array
+     */
     private function fetchAllUserReservedEvents(): array
     {
         $events = [];
@@ -72,6 +100,13 @@ class ReservationController extends AbstractController
         return $events;
     }
 
+    /**
+     * POST request handle function
+     * If no user is logged in, redirects to homepage
+     * Checks if event is reservable, if it is, creates a new reservation
+     * @param $response
+     * @return void
+     */
     private function handlePostRequest($response)
     {
         $eventId = $_POST['eventId'];

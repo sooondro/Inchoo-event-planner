@@ -22,7 +22,13 @@ class SignupController extends AbstractController
         $this->db = $db;
     }
 
-
+    /**
+     * Serves as handle function for '/signup' uri
+     * If user is logged in, redirects to homepage
+     * Checks if the request is POST or GET and calls adequate function
+     * @param $response
+     * @return void
+     */
     public function index($response)
     {
         if ($this->authController->isLoggedIn()) {
@@ -37,6 +43,13 @@ class SignupController extends AbstractController
         return $this->handleGetRequest($response);
     }
 
+    /**
+     * Serves as handle function for '/create-amin' uri
+     * If the current user is not and admin, redirects to homepage
+     * Checks if the request is POST or GET and calls adequate function
+     * @param $response
+     * @return void
+     */
     public function createAdmin($response) {
         if (!$this->authController->isAdmin()) {
             header('Location: /');
@@ -49,6 +62,14 @@ class SignupController extends AbstractController
         return $this->handleGetRequest($response);
     }
 
+    /**
+     * GET request handle function
+     * Used for normal signup and creation of admin account
+     * If the current user is admin, the location for form action is /create-admin
+     * Otherwise, the location is /signup
+     * @param $response
+     * @return mixed
+     */
     private function handleGetRequest($response)
     {
         return $response->setBody($response->renderView('signup', [
@@ -57,6 +78,14 @@ class SignupController extends AbstractController
             'isLoggedIn' => $this->authController->isLoggedIn()
         ]));
     }
+
+    /**
+     * POST request handle function for create-admin
+     * Validated user input, if successful, creates new admin and redirects to homepage
+     * If validation fails, redirects to signup page and displays error message
+     * @param $response
+     * @return void
+     */
     private function handlePostRequestCreateAdmin($response)
     {
         if ($this->validateUserInput()) {
@@ -74,6 +103,13 @@ class SignupController extends AbstractController
         ]));
     }
 
+    /**
+     * POST request handle function for /signup
+     * If validation is successful, creates new user and logs him in
+     * Otherwise, redirects to signup page and displays error message
+     * @param $response
+     * @return void
+     */
     private function handlePostRequest($response)
     {
         if ($this->validateUserInput()) {
@@ -92,7 +128,10 @@ class SignupController extends AbstractController
         ]));
     }
 
-
+    /**
+     * Calls all necessary functions for preparing user input data
+     * @return void
+     */
     private function prepareUserInput()
     {
         $this->formValues = $this->fetchFormValuesAsArray();
@@ -100,12 +139,20 @@ class SignupController extends AbstractController
         $this->uppercaseFirstLetterOfNameAndSurname();
     }
 
+    /**
+     * Turns first letters of name and surname to capital letters
+     * @return void
+     */
     private function uppercaseFirstLetterOfNameAndSurname()
     {
         $this->formValues['name'] = ucfirst($this->formValues['name']);
         $this->formValues['surname'] = ucfirst($this->formValues['surname']);
     }
 
+    /**
+     * Trims all unnecessary whitespace in user input
+     * @return void
+     */
     private function trimAllWhitespaceFromUserInput()
     {
         $this->formValues['name'] = trim($this->formValues['name']);
@@ -113,6 +160,10 @@ class SignupController extends AbstractController
         $this->formValues['email'] = trim($this->formValues['email']);
     }
 
+    /**
+     * Returns an associative array of user input data or better data handling
+     * @return array
+     */
     private function fetchFormValuesAsArray(): array
     {
         $values = [];
@@ -123,6 +174,11 @@ class SignupController extends AbstractController
         return $values;
     }
 
+    /**
+     * Validates user input
+     * If validation passes, returns true
+     * @return bool
+     */
     private function validateUserInput(): bool
     {
         try {
@@ -140,12 +196,21 @@ class SignupController extends AbstractController
         return false;
     }
 
+    /**
+     * Hashes user password for storing in database
+     * Returns the hashes password
+     * @return string
+     */
     private function hashPassword(): string
     {
         $password = $_POST['password'];
         return password_hash($password, PASSWORD_DEFAULT, ['cost' => 12]);
     }
 
+    /**
+     * Checks if the password and the repeated password match
+     * @return bool
+     */
     private function passwordsMatch(): bool
     {
         if ($_POST['password'] !== $_POST['repeated-password']) {
@@ -155,6 +220,11 @@ class SignupController extends AbstractController
         return true;
     }
 
+    /**
+     * Checks if a user with given email already exists
+     * Returns true if user exists
+     * @return bool
+     */
     private function userExists(): bool
     {
         $email = $this->formValues['email'];
@@ -166,6 +236,11 @@ class SignupController extends AbstractController
         return false;
     }
 
+    /**
+     * Starts a session and stores user id in session
+     * @param $id
+     * @return void
+     */
     private function startSessionAndStoreUserId($id)
     {
         if (!isset($_SESSION)) {
