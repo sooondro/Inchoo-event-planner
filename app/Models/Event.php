@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use DateTime;
 use PDO;
 
 class Event
@@ -9,8 +10,14 @@ class Event
 
     public static function fetchAllEvents(PDO $db)
     {
-        return $db->query("SELECT * FROM events")
-            ->fetchAll(PDO::FETCH_CLASS, Event::class);
+        $events = $db->prepare("
+            SELECT * FROM events
+            WHERE date > NOW()
+        ");
+        $events->execute();
+
+        return $events->fetchAll(PDO::FETCH_CLASS, Event::class);
+
     }
 
     public static function fetchEventById(PDO $db, int $id)

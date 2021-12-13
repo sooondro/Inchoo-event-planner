@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Models\Event;
 use App\Models\Reservation;
-use AuthController;
 use PDO;
 
 class HomeController extends AbstractController
