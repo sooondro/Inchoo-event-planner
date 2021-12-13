@@ -24,6 +24,14 @@ class EventController extends AbstractController
         $this->db = $db;
     }
 
+    /**
+     * Serves as a handler for '/create-event' uri
+     * Redirects to homepage if user does not have admin privilege
+     * If the request is GET request, calls GET request handler
+     * If the request is POST request, prepares POST data and calls POST request handler
+     * @param $response
+     * @return void
+     */
     public function index($response)
     {
         if (!$this->authController->isAdmin()) {
@@ -37,6 +45,13 @@ class EventController extends AbstractController
         return $this->handleGetRequestCreateEvent($response);
     }
 
+    /**
+     * Serves as a handler for '/delete-event' uri
+     * If current user is not admin, redirects to homepage
+     * Deletes event and redirects to location from which it has been called
+     * @param $response
+     * @return void
+     */
     public function delete($response) {
         if (!$this->authController->isAdmin()) {
             header('Location: /');
@@ -50,6 +65,14 @@ class EventController extends AbstractController
         die();
     }
 
+    /**
+     * Serves as a handler for 'edit-event' uri
+     * If the user is not admin, redirects to homepage
+     * If the request is GET request, calls GET request handler
+     * If the request is POST request, prepares POST data and calls POST request handler
+     * @param $response
+     * @return void
+     */
     public function edit($response) {
         if (!$this->authController->isAdmin()) {
             header('Location: /');
@@ -64,6 +87,11 @@ class EventController extends AbstractController
 
     }
 
+    /**
+     * GET request handler, redirects to create-event view with location create-event
+     * @param $response
+     * @return mixed
+     */
     private function handleGetRequestCreateEvent($response)
     {
         return $response->setBody($response->renderView('create-event', [
@@ -73,6 +101,14 @@ class EventController extends AbstractController
         ]));
     }
 
+    /**
+     *POST request handle function
+     * validates form input
+     * if validation passes, creates new event
+     * if validation does not pass, redirects user back to create event form and displays error message
+     * @param $response
+     * @return void
+     */
     private function handlePostRequestCreateEvent($response)
     {
         if ($this->validateUserInput()) {
@@ -90,6 +126,12 @@ class EventController extends AbstractController
         ]));
     }
 
+    /**
+     * GET request edit event handle function
+     * fetches event that needs update by his id and prepopulates form values
+     * @param $response
+     * @return mixed
+     */
     private function handleGetRequestEditEvent($response)
     {
         $eventId = $_GET['eventId'];
@@ -103,6 +145,14 @@ class EventController extends AbstractController
         ]));
     }
 
+    /**
+     * POST request edit event handle function
+     * Validates user input
+     * if user input is valid, updates the chosen event
+     * if validation fails, redirects back to the form and displays error message
+     * @param $response
+     * @return void
+     */
     private function handlePostRequestEditEvent($response)
     {
         if ($this->validateUserInput()) {
@@ -120,12 +170,20 @@ class EventController extends AbstractController
         ]));
     }
 
+    /**
+     * Calls all necessary function for preparing user input
+     * @return void
+     */
     private function prepareUserInput()
     {
         $this->formValues = $this->fetchFormValuesAsArray();
         $this->trimAllWhitespaceFromUserInput();
     }
 
+    /**
+     * Responsible for validating user input using Validators
+     * @return bool
+     */
     private function validateUserInput(): bool
     {
         try {
@@ -142,6 +200,11 @@ class EventController extends AbstractController
         return false;
     }
 
+    /**
+     * returns all user form data as an associative array
+     * Used for easier handling of form data
+     * @return array
+     */
     private function fetchFormValuesAsArray(): array
     {
         $values = [];
@@ -155,6 +218,10 @@ class EventController extends AbstractController
         return $values;
     }
 
+    /**
+     * Trims all unnecessary white spaces from user input fields
+     * @return void
+     */
     private function trimAllWhitespaceFromUserInput()
     {
         $this->formValues['name'] = trim($this->formValues['name']);
@@ -162,6 +229,12 @@ class EventController extends AbstractController
         $this->formValues['description'] = trim($this->formValues['description']);
     }
 
+    /**
+     * Used for edit event prepopulation
+     * created so the controller can work with create event and edit event requests with same functions
+     * @param $event
+     * @return void
+     */
     private function setFormValuesFromFetchedEvent($event){
         $this->formValues['name'] = $event->name;
         $this->formValues['location'] = $event->location;
