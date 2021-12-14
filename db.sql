@@ -36,7 +36,8 @@ CREATE TABLE `events` (
   `max_attendees` int NOT NULL,
   `description` text NOT NULL,
   `count` int NOT NULL DEFAULT '0',
-  `admin_id` int NOT NULL
+  `admin_id` int NOT NULL,
+  `image` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
