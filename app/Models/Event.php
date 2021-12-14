@@ -55,7 +55,8 @@ class Event
 
     public static function updateAdminEvent(PDO $db, array $values)
     {
-        $query = $db->prepare("
+        if ($values['image'] == '') {
+            $query = $db->prepare("
             UPDATE events
             SET 
                 name=:name,
@@ -63,6 +64,29 @@ class Event
                 location=:location,
                 max_attendees=:max,
                 description=:description
+            WHERE id=:eventId AND admin_id=:adminId
+        ");
+
+            $query->execute([
+                'name' => $values['name'],
+                'date' => $values['date'],
+                'location' => $values['location'],
+                'max' => $values['max'],
+                'description' => $values['description'],
+                'eventId' => $values['eventId'],
+                'adminId' => $values['adminId'],
+            ]);
+            return;
+        }
+        $query = $db->prepare("
+            UPDATE events
+            SET 
+                name=:name,
+                date=:date,
+                location=:location,
+                max_attendees=:max,
+                description=:description,
+                image = :image
             WHERE id=:eventId AND admin_id=:adminId
         ");
 
@@ -74,6 +98,7 @@ class Event
             'description' => $values['description'],
             'eventId' => $values['eventId'],
             'adminId' => $values['adminId'],
+            'image' => $values['image']
         ]);
     }
 
