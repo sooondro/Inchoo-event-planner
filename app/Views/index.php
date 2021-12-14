@@ -9,6 +9,7 @@ if (!isset($_SESSION)) {
         foreach ($data['events'] as $event): ?>
             <div class="row mb-3">
                 <div class="card mx-auto" style="width: 18rem">
+                    <img src="<?= $event->image ?? ''?>" class="card-img-top" alt="Event image">
                     <div class="card-body">
                         <h5 class="card-title"><?= $event->name ?></h5>
                         <h6 class="card-subtitle mb-2 text-muted">Max: <?= $event->max_attendees ?> |
