@@ -246,7 +246,7 @@ class EventController extends AbstractController
 
     private function fetchImagePath(): string
     {
-        $uploaddir = '/var/www/event-planner/app/Uploads/';
+        $uploaddir = '/app/Uploads/';
         return $uploaddir . basename($_FILES['image']['name']);
     }
 
