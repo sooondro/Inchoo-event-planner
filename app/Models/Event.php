@@ -38,8 +38,8 @@ class Event
     public static function postNewEvent(PDO $db, array $values)
     {
         $event = $db->prepare("
-            INSERT INTO events (name, date, location, max_attendees, description, admin_id)
-            VALUES (:name, :date, :location, :max, :description, :adminId)
+            INSERT INTO events (name, date, location, max_attendees, description, admin_id, image)
+            VALUES (:name, :date, :location, :max, :description, :adminId, :image)
         ");
 
         $event->execute([
@@ -49,6 +49,7 @@ class Event
             'max' => $values['max'],
             'description' => $values['description'],
             'adminId' => $values['adminId'],
+            'image' => $values['image']
         ]);
     }
 
