@@ -113,6 +113,7 @@ class EventController extends AbstractController
     {
         if ($this->validateUserInput()) {
             Event::postNewEvent($this->db, $this->formValues);
+            $this->uploadFile();
             header('Location: /');
             die();
         }
@@ -178,6 +179,7 @@ class EventController extends AbstractController
     {
         $this->formValues = $this->fetchFormValuesAsArray();
         $this->trimAllWhitespaceFromUserInput();
+
     }
 
     /**
@@ -215,6 +217,7 @@ class EventController extends AbstractController
         $values['date'] = $_POST['date'];
         $values['adminId'] = $this->authController->getActiveUserId();
         $values['eventId'] = $_POST['eventId'];
+        $values['image'] = $this->fetchImagePath();
         return $values;
     }
 
@@ -229,9 +232,27 @@ class EventController extends AbstractController
         $this->formValues['description'] = trim($this->formValues['description']);
     }
 
+    private function uploadFile(){
+        $uploaddir = '/var/www/event-planner/app/Uploads/';
+        $uploadFile = $uploaddir . basename($_FILES['image']['name']);
+
+        echo '<pre>';
+        if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadFile)) {
+            echo "File is valid, and was successfully uploaded.\n";
+        } else {
+            echo "Possible file upload attack!\n";
+        }
+    }
+
+    private function fetchImagePath(): string
+    {
+        $uploaddir = '/var/www/event-planner/app/Uploads/';
+        return $uploaddir . basename($_FILES['image']['name']);
+    }
+
     /**
-     * Used for edit event prepopulation
-     * created so the controller can work with create event and edit event requests with same functions
+     * Used for edit event prepopulation.
+     * Created so the controller can work with create event and edit event requests with same functions
      * @param $event
      * @return void
      */
@@ -243,4 +264,6 @@ class EventController extends AbstractController
         $this->formValues['date'] = date('Y-m-d\TH:i', strtotime($event->date));
         $this->formValues['eventId'] = $event->id;
     }
+
+
 }

@@ -60,7 +60,7 @@ class LoginController extends AbstractController
     private function handlePostRequest($response)
     {
         if ($this->validateUserCredentials()) {
-            $this->startSessionAndStoreUserId($this->getUser()->id);
+            $this->startSessionAndStoreUserId($this->getUserByEmail()->id);
             header('Location: /');
             die();
 

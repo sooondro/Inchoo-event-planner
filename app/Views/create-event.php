@@ -7,7 +7,7 @@
     <?php endif; ?>
 </div>
 <div class="container d-flex justify-content-center mt-3">
-    <form action="<?= $data['location'] ?>" method="post" style="width: 30rem;">
+    <form action="<?= $data['location'] ?>" method="post" enctype="multipart/form-data" style="width: 30rem;">
         <div class="mb-3">
             <label for="name" class="form-label">Event name</label>
             <input
@@ -61,7 +61,11 @@
                     required
             ><?= $data['formValues']['description'] ?? '' ?></textarea>
         </div>
-        <input type="hidden" name="eventId" value="<?= $data['formValues']['eventId'] ?>">
+        <div class="mb-3">
+            <label for="image" class="form-label">Event image</label>
+            <input class="form-control" type="file" id="image" name="image" required>
+        </div>
+        <input type="hidden" name="eventId" value="<?= $data['formValues']['eventId'] ?? ''?>">
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
