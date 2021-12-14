@@ -40,16 +40,6 @@ CREATE TABLE `events` (
   `image` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Dumping data for table `events`
---
-
-INSERT INTO `events` (`id`, `name`, `date`, `location`, `max_attendees`, `description`, `count`, `admin_id`) VALUES
-(1, 'event', '2021-12-01 12:02:06', 'vukovarska', 40, 'dobar event', 0, 1),
-(2, 'event2', '2021-12-01 12:02:06', 'vukovarska2', 40, 'dobar event2', 0, 1),
-(3, 'test eventjgjhbjhaaaaaaaaaaa', '2021-12-13 18:27:00', 'centar', 40, 'Ovo je test event', 0, 2),
-(4, 'Sandro fds', '2021-12-09 14:10:00', 'centar', 32, 'jgfjgfjgf', 0, 2),
-(5, 'novi', '2021-12-18 14:37:00', 'dadsasd', 1, 'asffsafas', 0, 2);
 
 -- --------------------------------------------------------
 
