@@ -1,4 +1,8 @@
-<h3 class="text-center">Create a new event!</h3>
+<?php if ($data['location'] == '/create-event') : ?>
+    <h3 class="text-center">Create a new event!</h3>
+<?php else: ?>
+    <h3 class="text-center">Edit event - <?= $data['formValues']['name'] ?></h3>
+<?php endif; ?>
 <div class="container d-flex justify-content-center">
     <?php if (isset($data['confirmation'])) : ?>
         <span style="color:red;">
@@ -61,11 +65,20 @@
                     required
             ><?= $data['formValues']['description'] ?? '' ?></textarea>
         </div>
+        <?php if ($data['location'] == '/edit-event') : ?>
+            <img src="<?= $data['formValues']['image'] ?>" class="d-flex mx-auto" style="max-width: 30%">
+        <?php endif; ?>
         <div class="mb-3">
             <label for="image" class="form-label">Event image</label>
-            <input class="form-control" type="file" id="image" name="image" required>
+            <input
+                    class="form-control"
+                    type="file"
+                    id="image"
+                    name="image"
+                <?php if ($data['location'] == '/create-event') echo 'required' ?>
+            >
         </div>
-        <input type="hidden" name="eventId" value="<?= $data['formValues']['eventId'] ?? ''?>">
+        <input type="hidden" name="eventId" value="<?= $data['formValues']['eventId'] ?? '' ?>">
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>

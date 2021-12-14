@@ -94,7 +94,7 @@ class EventController extends AbstractController
      */
     private function handleGetRequestCreateEvent($response)
     {
-        return $response->setBody($response->renderView('create-event', [
+        return $response->setBody($response->renderView('event-form', [
             'location' => '/create-event',
             'isAdmin' => $this->authController->isAdmin(),
             'isLoggedIn' => $this->authController->isLoggedIn()
@@ -117,7 +117,7 @@ class EventController extends AbstractController
             header('Location: /');
             die();
         }
-        return $response->setBody($response->renderView('create-event', [
+        return $response->setBody($response->renderView('event-form', [
             'location' => '/create-event',
             'confirmation' => 'fail',
             'message' => $this->errMessage,
@@ -138,7 +138,7 @@ class EventController extends AbstractController
         $eventId = $_GET['eventId'];
         $event = Event::fetchEventById($this->db, $eventId);
         $this->setFormValuesFromFetchedEvent($event);
-        return $response->setBody($response->renderView('create-event', [
+        return $response->setBody($response->renderView('event-form', [
             'location' => '/edit-event',
             'formValues' => $this->formValues,
             'isAdmin' => $this->authController->isAdmin(),
@@ -161,7 +161,7 @@ class EventController extends AbstractController
             header('Location: /');
             die();
         }
-        return $response->setBody($response->renderView('create-event', [
+        return $response->setBody($response->renderView('event-form', [
             'location' => '/edit-event',
             'confirmation' => 'fail',
             'message' => $this->errMessage,
@@ -247,7 +247,8 @@ class EventController extends AbstractController
     private function fetchImagePath(): string
     {
         $uploaddir = '/app/Uploads/';
-        return $uploaddir . basename($_FILES['image']['name']);
+        $imagePath = $uploaddir . basename($_FILES['image']['name']);
+        return is_uploaded_file($_FILES['image']['name']) ? $imagePath : '';
     }
 
     /**
@@ -263,6 +264,7 @@ class EventController extends AbstractController
         $this->formValues['description'] = $event->description;
         $this->formValues['date'] = date('Y-m-d\TH:i', strtotime($event->date));
         $this->formValues['eventId'] = $event->id;
+        $this->formValues['image'] = $event->image;
     }
 
 
