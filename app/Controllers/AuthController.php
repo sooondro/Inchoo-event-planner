@@ -51,14 +51,11 @@ class AuthController
      */
     public function isAdmin(): bool
     {
-        if ($this->currentUser) {
-            if ($this->currentUser->admin) return true;
-        }
-        return false;
+        return $this->currentUser && $this->currentUser->admin;
     }
 
     /**
-     * Return current user id or null if no user is logged in
+     * Returns current user id or null if no user is logged in
      * @return null
      */
     public function getActiveUserId(){
