@@ -61,6 +61,4 @@ $app->map('/reservations', [new ReservationController($container->db), 'index'],
 
 $app->post('/delete-reservation', [new ReservationController($container->db), 'delete']);
 
-$app->get('/test', [new HomeController($container->db), 'test']);
-
 $app->run();
