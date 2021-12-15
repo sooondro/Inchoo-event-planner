@@ -4,6 +4,7 @@ namespace App;
 
 use App\Exceptions\MethodNotAllowedException;
 use App\Exceptions\RouteNotFoundException;
+use App\Validators\SignupValidator;
 
 class App
 {
@@ -17,12 +18,15 @@ class App
             },
             'response' => function () {
                 return new Response;
+            },
+            'signupValidator' => function () {
+                return new SignupValidator;
             }
         ]);
 
     }
 
-    public function getContainer()
+    public function getContainer(): Container
     {
         return $this->container;
     }

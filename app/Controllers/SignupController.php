@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Validators\EmailValidator;
 use App\Validators\NameValidator;
 use App\Validators\PasswordValidator;
+use App\Validators\SignupValidator;
 use App\Validators\SurnameValidator;
 use PDO;
 
@@ -181,14 +182,12 @@ class SignupController extends AbstractController
      */
     private function validateUserInput(): bool
     {
+        $validator = new SignupValidator();
         try {
             if (
-                PasswordValidator::validate($_POST['password'])
-                && NameValidator::validate($this->formValues['name'])
-                && SurnameValidator::validate($this->formValues['surname'])
-                && EmailValidator::validate($this->formValues['email'])
-                && !$this->userExists()
+                !$this->userExists()
                 && $this->passwordsMatch()
+                && $validator->validate($this->formValues)
             ) return true;
         } catch (\Exception $e) {
             $this->errMessage = $e->getMessage();
