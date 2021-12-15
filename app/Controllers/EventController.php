@@ -223,19 +223,20 @@ class EventController extends AbstractController
     }
 
     private function uploadFile(){
-        $uploaddir = '/var/www/event-planner/app/Uploads/';
+        $uploaddir = $_SERVER['DOCUMENT_ROOT'] . '/public/Uploads/';
         $uploadFile = $uploaddir . basename($_FILES['image']['name']);
 
         if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadFile)) {
             echo "File is valid, and was successfully uploaded.\n";
         } else {
             echo "Possible file upload attack!\n";
+            die();
         }
     }
 
     private function fetchImagePath(): string
     {
-        $uploaddir = '/app/Uploads/';
+        $uploaddir = '/public/Uploads/';
         return $uploaddir . basename($_FILES['image']['name']);
     }
 

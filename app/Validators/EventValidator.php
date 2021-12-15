@@ -16,7 +16,8 @@ class EventValidator extends BaseValidator implements ValidatorInterface
             $this->validateDateTime($values['date']) &&
             $this->validateLocation($values['location']) &&
             $this->validateDescription($values['description']) &&
-            $this->validateMaxAttendees($values['max']);
+            $this->validateMaxAttendees($values['max']) &&
+            $this->validateFileType($values['image']);
     }
 
     private function validateDateTime($date): bool
@@ -42,4 +43,11 @@ class EventValidator extends BaseValidator implements ValidatorInterface
         if ($max >= 1) return true;
         throw new EventValidatorException('Invalid max attendees');
     }
+
+    private function validateFileType(string $filepath): bool {
+        $fileType = strtolower(pathinfo($filepath,PATHINFO_EXTENSION));
+        if ($fileType == 'jpg' || $fileType == 'jpeg' || $fileType == 'png') return true;
+        throw new EventValidatorException('Invalid file. File must be an image (.jpg, .jpeg, .png)');
+    }
+
 }
