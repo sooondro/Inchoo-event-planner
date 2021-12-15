@@ -31,7 +31,7 @@ class ReservationController extends AbstractController
             die();
         }
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            return $this->handlePostRequest($response);
+            $this->handlePostRequest();
         }
         return $this->handleGetRequest($response);
     }
@@ -108,7 +108,6 @@ class ReservationController extends AbstractController
     private function handlePostRequest()
     {
         $eventId = $_POST['eventId'];
-        $location = $_POST['location'];
         if (!$this->authController->isLoggedIn()) {
             header('Location: /');
             die();
