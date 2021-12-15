@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\Event;
 use App\Validators\DateTimeValidator;
 use App\Validators\DescriptionValidator;
+use App\Validators\EventValidator;
 use App\Validators\LocationValidator;
 use App\Validators\MaxAttendeesValidator;
 use App\Validators\NameValidator;
@@ -188,14 +189,9 @@ class EventController extends AbstractController
      */
     private function validateUserInput(): bool
     {
+        $validator = new EventValidator();
         try {
-            if (
-                NameValidator::validate($this->formValues['name'])
-                && DateTimeValidator::validate($this->formValues['date'])
-                && LocationValidator::validate($this->formValues['location'])
-                && MaxAttendeesValidator::validate($this->formValues['max'])
-                && DescriptionValidator::validate($this->formValues['description'])
-            ) return true;
+            return $validator->validate($this->formValues);
         } catch (\Exception $e) {
             $this->errMessage = $e->getMessage();
         };
@@ -247,8 +243,7 @@ class EventController extends AbstractController
     private function fetchImagePath(): string
     {
         $uploaddir = '/app/Uploads/';
-        $imagePath = $uploaddir . basename($_FILES['image']['name']);
-        return is_uploaded_file($_FILES['image']['name']) ? $imagePath : '';
+        return $uploaddir . basename($_FILES['image']['name']);
     }
 
     /**

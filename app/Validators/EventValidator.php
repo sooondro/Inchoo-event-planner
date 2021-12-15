@@ -2,33 +2,44 @@
 
 namespace App\Validators;
 
+use App\Exceptions\Validator\EventValidatorException;
 use App\Interfaces\ValidatorInterface;
+use DateTime;
 
 class EventValidator extends BaseValidator implements ValidatorInterface
 {
 
     function validate(array $values): bool
     {
-        // TODO: Implement validate() method.
+        return
+            $this->validateName($values['name'], 'name') &&
+            $this->validateDateTime($values['date']) &&
+            $this->validateLocation($values['location']) &&
+            $this->validateDescription($values['description']) &&
+            $this->validateMaxAttendees($values['max']);
     }
 
-    private function validateDateTime() {
+    private function validateDateTime($date): bool
+    {
+        $currentDateTime = new DateTime();
+        $userDateTime = new DateTime($date);
 
+        if ($userDateTime > $currentDateTime) return true;
+        throw new EventValidatorException('Invalid date');
     }
 
-    private function validateName() {
-
+    private function validateLocation(string $location): bool {
+        if (!$this->isEmpty($location) && preg_match("/^[a-zA-Z0-9-' ]*$/", $location)) return true;
+        throw new EventValidatorException('Invalid location');
     }
 
-    private function validateLocation() {
-
+    private function validateDescription(string $description): bool {
+        if (preg_match("/^[a-zA-Z0-9-' ]*$/", $description)) return true;
+        throw new EventValidatorException('Invalid description');
     }
 
-    private function validateDescription() {
-
-    }
-
-    private function validateMaxAttendees() {
-
+    private function validateMaxAttendees(string $max): bool {
+        if ($max >= 1) return true;
+        throw new EventValidatorException('Invalid max attendees');
     }
 }
