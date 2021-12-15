@@ -3,13 +3,8 @@
 namespace App\Controllers;
 
 use App\Models\Event;
-use App\Validators\DateTimeValidator;
-use App\Validators\DescriptionValidator;
 use App\Validators\EventValidator;
-use App\Validators\LocationValidator;
-use App\Validators\MaxAttendeesValidator;
-use App\Validators\NameValidator;
-use DateTime;
+use Exception;
 use PDO;
 
 class EventController extends AbstractController
@@ -50,10 +45,9 @@ class EventController extends AbstractController
      * Serves as a handler for '/delete-event' uri
      * If current user is not admin, redirects to homepage
      * Deletes event and redirects to location from which it has been called
-     * @param $response
      * @return void
      */
-    public function delete($response) {
+    public function delete() {
         if (!$this->authController->isAdmin()) {
             header('Location: /');
             die();
@@ -192,9 +186,9 @@ class EventController extends AbstractController
         $validator = new EventValidator();
         try {
             return $validator->validate($this->formValues);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->errMessage = $e->getMessage();
-        };
+        }
         return false;
     }
 
@@ -232,7 +226,6 @@ class EventController extends AbstractController
         $uploaddir = '/var/www/event-planner/app/Uploads/';
         $uploadFile = $uploaddir . basename($_FILES['image']['name']);
 
-        echo '<pre>';
         if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadFile)) {
             echo "File is valid, and was successfully uploaded.\n";
         } else {

@@ -3,11 +3,8 @@
 namespace App\Controllers;
 
 use App\Models\User;
-use App\Validators\EmailValidator;
-use App\Validators\NameValidator;
-use App\Validators\PasswordValidator;
 use App\Validators\SignupValidator;
-use App\Validators\SurnameValidator;
+use Exception;
 use PDO;
 
 class SignupController extends AbstractController
@@ -90,7 +87,7 @@ class SignupController extends AbstractController
     private function handlePostRequestCreateAdmin($response)
     {
         if ($this->validateUserInput()) {
-            $id =User::signUpAdminUser($this->db, $this->formValues);
+            $id = User::signUpAdminUser($this->db, $this->formValues);
             header('Location: /');
             die();
         }
@@ -189,9 +186,9 @@ class SignupController extends AbstractController
                 && $this->passwordsMatch()
                 && $validator->validate($this->formValues)
             ) return true;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->errMessage = $e->getMessage();
-        };
+        }
         return false;
     }
 
