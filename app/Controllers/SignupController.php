@@ -3,11 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\User;
-use App\Validators\EmailValidator;
-use App\Validators\NameValidator;
-use App\Validators\PasswordValidator;
 use App\Validators\SignupValidator;
-use App\Validators\SurnameValidator;
 use PDO;
 
 class SignupController extends AbstractController

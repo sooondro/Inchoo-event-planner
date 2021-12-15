@@ -3,13 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Event;
-use App\Validators\DateTimeValidator;
-use App\Validators\DescriptionValidator;
 use App\Validators\EventValidator;
-use App\Validators\LocationValidator;
-use App\Validators\MaxAttendeesValidator;
-use App\Validators\NameValidator;
-use DateTime;
 use PDO;
 
 class EventController extends AbstractController
@@ -53,7 +47,7 @@ class EventController extends AbstractController
      * @param $response
      * @return void
      */
-    public function delete($response) {
+    public function delete() {
         if (!$this->authController->isAdmin()) {
             header('Location: /');
             die();

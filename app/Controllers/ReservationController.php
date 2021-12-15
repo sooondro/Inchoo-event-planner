@@ -40,10 +40,9 @@ class ReservationController extends AbstractController
      * Serves as handle function for '/delete-reservation' uri
      * checks if user is logged in, if not, redirects to homepage
      * After deleting reservation, redirects back to the page from which the request was sent
-     * @param $response
      * @return void
      */
-    public function delete($response) {
+    public function delete() {
         if (!$this->authController->isLoggedIn()) {
             header('Location: /');
             die();
@@ -104,10 +103,9 @@ class ReservationController extends AbstractController
      * POST request handle function
      * If no user is logged in, redirects to homepage
      * Checks if event is reservable, if it is, creates a new reservation
-     * @param $response
      * @return void
      */
-    private function handlePostRequest($response)
+    private function handlePostRequest()
     {
         $eventId = $_POST['eventId'];
         $location = $_POST['location'];
