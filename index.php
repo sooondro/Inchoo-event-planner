@@ -1,6 +1,7 @@
 <?php
 
 use App\App;
+use App\Controllers\AdminEventsController;
 use App\Controllers\EventController;
 use App\Controllers\HomeController;
 use App\Controllers\LoginController;
@@ -60,5 +61,7 @@ $app->map('/edit-event', [new EventController($container->db), 'edit'], ['GET', 
 $app->map('/reservations', [new ReservationController($container->db), 'index'], ['GET', 'POST']);
 
 $app->post('/delete-reservation', [new ReservationController($container->db), 'delete']);
+
+$app->map('/admin-events', [new AdminEventsController($container->db), 'index'], ['GET', 'POST']);
 
 $app->run();

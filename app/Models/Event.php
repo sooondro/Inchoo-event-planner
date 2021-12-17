@@ -133,6 +133,20 @@ class Event
         return $idArray;
     }
 
+    public static function fetchAllAdminEvents(PDO $db, $id) {
+        $query = $db->prepare("
+            SELECT * FROM events
+            WHERE admin_id = :id
+        ");
+
+        $query->execute([
+            'id' => $id
+        ]);
+
+        return $query->fetchAll(PDO::FETCH_CLASS, Event::class);
+
+    }
+
     public static function isEventReservable(PDO $db, $id): bool
     {
         $event = self::fetchEventById($db, $id);
