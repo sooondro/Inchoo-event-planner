@@ -64,6 +64,7 @@ class AuthController
 
     public function getActiveUserName()
     {
-        return $this->currentUser->name . ' ' . $this->currentUser->surname ?? null;
+        if ($this->currentUser) return $this->currentUser->name . ' ' . $this->currentUser->surname;
+        return null;
     }
 }

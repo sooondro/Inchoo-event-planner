@@ -48,7 +48,7 @@ if (!isset($_SESSION)) {
                                 </button>
                             <?php endif; ?>
                         <?php else: ?>
-                            <p class="card-text">Log in to make a reservation</p>
+                            <a href="/login" class="btn btn-light d-flex mx-auto">Login to make a reservation</a>
                         <?php endif; ?>
                     </div>
                 </div>
