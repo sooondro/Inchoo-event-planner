@@ -46,7 +46,8 @@ class LoginController extends AbstractController
         }
         return $response->setBody($response->renderView('login', [
             'isAdmin' => $this->authController->isAdmin(),
-            'isLoggedIn' => $this->authController->isLoggedIn()
+            'isLoggedIn' => $this->authController->isLoggedIn(),
+            'userName' => $this->authController->getActiveUserName()
         ]));
     }
 
@@ -70,7 +71,8 @@ class LoginController extends AbstractController
             'message' => $this->errMessage,
             'formValues' => $this->formValues,
             'isAdmin' => $this->authController->isAdmin(),
-            'isLoggedIn' => $this->authController->isLoggedIn()
+            'isLoggedIn' => $this->authController->isLoggedIn(),
+            'userName' => $this->authController->getActiveUserName()
         ]));
     }
 

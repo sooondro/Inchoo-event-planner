@@ -92,7 +92,8 @@ class EventController extends AbstractController
         return $response->setBody($response->renderView('event-form', [
             'location' => '/create-event',
             'isAdmin' => $this->authController->isAdmin(),
-            'isLoggedIn' => $this->authController->isLoggedIn()
+            'isLoggedIn' => $this->authController->isLoggedIn(),
+            'userName' => $this->authController->getActiveUserName()
         ]));
     }
 
@@ -118,7 +119,8 @@ class EventController extends AbstractController
             'message' => $this->errMessage,
             'formValues' => $this->formValues,
             'isAdmin' => $this->authController->isAdmin(),
-            'isLoggedIn' => $this->authController->isLoggedIn()
+            'isLoggedIn' => $this->authController->isLoggedIn(),
+            'userName' => $this->authController->getActiveUserName()
         ]));
     }
 
@@ -137,7 +139,8 @@ class EventController extends AbstractController
             'location' => '/edit-event',
             'formValues' => $this->formValues,
             'isAdmin' => $this->authController->isAdmin(),
-            'isLoggedIn' => $this->authController->isLoggedIn()
+            'isLoggedIn' => $this->authController->isLoggedIn(),
+            'userName' => $this->authController->getActiveUserName()
         ]));
     }
 
@@ -162,7 +165,8 @@ class EventController extends AbstractController
             'message' => $this->errMessage,
             'formValues' => $this->formValues,
             'isAdmin' => $this->authController->isAdmin(),
-            'isLoggedIn' => $this->authController->isLoggedIn()
+            'isLoggedIn' => $this->authController->isLoggedIn(),
+            'userName' => $this->authController->getActiveUserName()
         ]));
     }
 

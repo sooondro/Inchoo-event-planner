@@ -51,6 +51,9 @@
                     </li>
                 <?php else : ?>
                     <li class="nav-item">
+                        <a class="nav-link" href="/profile"><?= $data['userName'] ?></a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="/logout">Log out</a>
                     </li>
                 <?php endif; ?>

@@ -73,7 +73,8 @@ class SignupController extends AbstractController
         return $response->setBody($response->renderView('signup', [
             'location' => $this->authController->isAdmin() ? '/create-admin' : '/signup',
             'isAdmin' => $this->authController->isAdmin(),
-            'isLoggedIn' => $this->authController->isLoggedIn()
+            'isLoggedIn' => $this->authController->isLoggedIn(),
+            'userName' => $this->authController->getActiveUserName()
         ]));
     }
 
@@ -97,7 +98,8 @@ class SignupController extends AbstractController
             'message' => $this->errMessage,
             'formValues' => $this->formValues,
             'isAdmin' => $this->authController->isAdmin(),
-            'isLoggedIn' => $this->authController->isLoggedIn()
+            'isLoggedIn' => $this->authController->isLoggedIn(),
+            'userName' => $this->authController->getActiveUserName()
         ]));
     }
 
@@ -122,7 +124,8 @@ class SignupController extends AbstractController
             'message' => $this->errMessage,
             'formValues' => $this->formValues,
             'isAdmin' => $this->authController->isAdmin(),
-            'isLoggedIn' => $this->authController->isLoggedIn()
+            'isLoggedIn' => $this->authController->isLoggedIn(),
+            'userName' => $this->authController->getActiveUserName()
         ]));
     }
 
