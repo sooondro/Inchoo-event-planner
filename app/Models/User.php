@@ -36,7 +36,6 @@ class User
             'email' => $values['email'],
             'password' => $values['password'],
         ]);
-        return $db->lastInsertId();
     }
 
     public static function findUserByEmail(PDO $db, string $email)
@@ -48,11 +47,11 @@ class User
 
         $user->bindParam(':email', $email);
         $user->execute();
-        $user = $user->fetchAll(PDO::FETCH_CLASS, User::class);
-        return $user[0] ?? false;
+        $user->setFetchMode(PDO::FETCH_CLASS, User::class);
+        return $user->fetch();
     }
 
-    public static function findUserById(PDO $db, $id)
+    public static function findUserById(PDO $db, int $id)
     {
         $user = $db->prepare("
             SELECT * FROM users
@@ -61,11 +60,8 @@ class User
 
         $user->bindParam(':id', $id);
         $user->execute();
-        $user = $user->fetchAll(PDO::FETCH_CLASS, User::class);
-        return $user[0];
+        $user->setFetchMode(PDO::FETCH_CLASS, User::class);
+        return $user->fetch();
     }
 
-    public function getAdmin() {
-        return $this->admin;
-    }
 }
