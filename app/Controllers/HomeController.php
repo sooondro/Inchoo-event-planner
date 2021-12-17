@@ -30,7 +30,8 @@ class HomeController extends AbstractController
             'adminEvents' => $this->fetchAllAdminEventIds(),
             'reservedEvents' => $this->fetchAllUserReservationIdsAsArray(),
             'isAdmin' => $this->authController->isAdmin(),
-            'isLoggedIn' => $this->authController->isLoggedIn()
+            'isLoggedIn' => $this->authController->isLoggedIn(),
+            'userName' => $this->authController->getActiveUserName()
         ]));
     }
 

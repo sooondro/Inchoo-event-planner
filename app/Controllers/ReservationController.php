@@ -68,7 +68,8 @@ class ReservationController extends AbstractController
         return $response->setBody($response->renderView('reservations', [
             'events' => $this->fetchAllUserReservedEvents(),
             'isAdmin' => $this->authController->isAdmin(),
-            'isLoggedIn' => $this->authController->isLoggedIn()
+            'isLoggedIn' => $this->authController->isLoggedIn(),
+            'userName' => $this->authController->getActiveUserName()
         ]));
     }
 
