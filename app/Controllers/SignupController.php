@@ -88,7 +88,7 @@ class SignupController extends AbstractController
     private function handlePostRequestCreateAdmin($response)
     {
         if ($this->validateUserInput()) {
-            $id = User::signUpAdminUser($this->db, $this->formValues);
+            User::signUpAdminUser($this->db, $this->formValues);
             header('Location: /');
             die();
         }

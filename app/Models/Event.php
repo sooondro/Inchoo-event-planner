@@ -29,10 +29,8 @@ class Event
 
         $event->bindParam(':id', $id);
         $event->execute();
-
-        $event = $event->fetchAll(PDO::FETCH_CLASS, Event::class);
-
-        return $event[0];
+        $event->setFetchMode(PDO::FETCH_CLASS, Event::class);
+        return $event->fetch();
     }
 
     public static function postNewEvent(PDO $db, array $values)
@@ -102,7 +100,7 @@ class Event
         ]);
     }
 
-    public static function deleteEventById(PDO $db, $id)
+    public static function deleteEventById(PDO $db, int $id)
     {
         $query = $db->prepare("
             DELETE FROM events
@@ -114,7 +112,7 @@ class Event
         ]);
     }
 
-    public static function fetchAllAdminEventIdsAsArray(PDO $db, $adminId): array
+    public static function fetchAllAdminEventIdsAsArray(PDO $db, int $adminId): array
     {
         $query = $db->prepare("
             SELECT id FROM events
@@ -133,7 +131,7 @@ class Event
         return $idArray;
     }
 
-    public static function fetchAllAdminEvents(PDO $db, $id) {
+    public static function fetchAllAdminEvents(PDO $db, int $id) {
         $query = $db->prepare("
             SELECT * FROM events
             WHERE admin_id = :id
@@ -147,14 +145,14 @@ class Event
 
     }
 
-    public static function isEventReservable(PDO $db, $id): bool
+    public static function isEventReservable(PDO $db, int $id): bool
     {
         $event = self::fetchEventById($db, $id);
         if ($event->count >= $event->max_attendees) return false;
         return true;
     }
 
-    public static function incrementEventCount(PDO $db, $id)
+    public static function incrementEventCount(PDO $db, int $id)
     {
         $event = self::fetchEventById($db, $id);
         $newCount = $event->count + 1;
@@ -172,7 +170,7 @@ class Event
 
     }
 
-    public static function decrementEventCount(PDO $db, $id)
+    public static function decrementEventCount(PDO $db, int $id)
     {
         $event = self::fetchEventById($db, $id);
         $newCount = $event->count - 1;

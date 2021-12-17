@@ -17,7 +17,7 @@
             crossorigin="anonymous"></script>
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 <header class="mb-3">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="/">Event Planner</a>

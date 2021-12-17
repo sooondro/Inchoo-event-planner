@@ -96,12 +96,7 @@ class LoginController extends AbstractController
     private function validateUserCredentials(): bool
     {
         $user = $this->getUserByEmail();
-        if (!$user) {
-            $this->errMessage = 'Invalid email or password';
-            return false;
-        }
-
-        if (!$this->verifyPassword($this->formValues['password'], $user->password)) {
+        if (!$user || !$this->verifyPassword($this->formValues['password'], $user->password)) {
             $this->errMessage = 'Invalid email or password';
             return false;
         }

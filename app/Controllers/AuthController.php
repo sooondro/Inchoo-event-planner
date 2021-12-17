@@ -37,11 +37,7 @@ class AuthController
      */
     public function isLoggedIn(): bool
     {
-
-        if ($this->currentUser) {
-            return true;
-        }
-        return false;
+        return (bool) $this->currentUser;
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Event;
+use App\Response;
 use App\Validators\EventValidator;
 use Exception;
 use PDO;
@@ -25,10 +26,10 @@ class EventController extends AbstractController
      * Redirects to homepage if user does not have admin privilege
      * If the request is GET request, calls GET request handler
      * If the request is POST request, prepares POST data and calls POST request handler
-     * @param $response
+     * @param Response $response
      * @return void
      */
-    public function index($response)
+    public function index(Response $response)
     {
         if (!$this->authController->isAdmin()) {
             header('Location: /');
@@ -47,7 +48,8 @@ class EventController extends AbstractController
      * Deletes event and redirects to location from which it has been called
      * @return void
      */
-    public function delete() {
+    public function delete()
+    {
         if (!$this->authController->isAdmin()) {
             header('Location: /');
             die();
@@ -55,7 +57,7 @@ class EventController extends AbstractController
 
         $eventId = $_POST['eventId'];
 
-        Event::deleteEventById($this->db ,$eventId);
+        Event::deleteEventById($this->db, $eventId);
         header('Location: ' . $_POST['location']);
         die();
     }
@@ -65,10 +67,11 @@ class EventController extends AbstractController
      * If the user is not admin, redirects to homepage
      * If the request is GET request, calls GET request handler
      * If the request is POST request, prepares POST data and calls POST request handler
-     * @param $response
+     * @param Response $response
      * @return void
      */
-    public function edit($response) {
+    public function edit(Response $response)
+    {
         if (!$this->authController->isAdmin()) {
             header('Location: /');
             die();
@@ -84,10 +87,10 @@ class EventController extends AbstractController
 
     /**
      * GET request handler, redirects to create-event view with location create-event
-     * @param $response
-     * @return mixed
+     * @param Response $response
+     * @return Response
      */
-    private function handleGetRequestCreateEvent($response)
+    private function handleGetRequestCreateEvent(Response $response): Response
     {
         return $response->setBody($response->renderView('event-form', [
             'location' => '/create-event',
@@ -102,10 +105,10 @@ class EventController extends AbstractController
      * validates form input
      * if validation passes, creates new event
      * if validation does not pass, redirects user back to create event form and displays error message
-     * @param $response
-     * @return void
+     * @param Response $response
+     * @return Response
      */
-    private function handlePostRequestCreateEvent($response)
+    private function handlePostRequestCreateEvent(Response $response): Response
     {
         if ($this->validateUserInput()) {
             Event::postNewEvent($this->db, $this->formValues);
@@ -127,11 +130,16 @@ class EventController extends AbstractController
     /**
      * GET request edit event handle function
      * fetches event that needs update by his id and prepopulates form values
-     * @param $response
-     * @return mixed
+     * @param Response $response
+     * @return Response|void
      */
-    private function handleGetRequestEditEvent($response)
+    private function handleGetRequestEditEvent(Response $response)
     {
+        if (empty($_GET['eventId']) || !is_numeric($_GET['eventId'])) {
+            header('Location: /');
+            die();
+        }
+
         $eventId = $_GET['eventId'];
         $event = Event::fetchEventById($this->db, $eventId);
         $this->setFormValuesFromFetchedEvent($event);
@@ -149,10 +157,10 @@ class EventController extends AbstractController
      * Validates user input
      * if user input is valid, updates the chosen event
      * if validation fails, redirects back to the form and displays error message
-     * @param $response
-     * @return void
+     * @param Response $response
+     * @return Response
      */
-    private function handlePostRequestEditEvent($response)
+    private function handlePostRequestEditEvent(Response $response): Response
     {
         if ($this->validateUserInput()) {
             Event::updateAdminEvent($this->db, $this->formValues);
@@ -178,7 +186,6 @@ class EventController extends AbstractController
     {
         $this->formValues = $this->fetchFormValuesAsArray();
         $this->trimAllWhitespaceFromUserInput();
-
     }
 
     /**
@@ -226,7 +233,8 @@ class EventController extends AbstractController
         $this->formValues['description'] = trim($this->formValues['description']);
     }
 
-    private function uploadFile(){
+    private function uploadFile()
+    {
         $uploaddir = '/var/www/event-planner/app/Uploads/';
         $uploadFile = $uploaddir . basename($_FILES['image']['name']);
 
@@ -249,7 +257,8 @@ class EventController extends AbstractController
      * @param $event
      * @return void
      */
-    private function setFormValuesFromFetchedEvent($event){
+    private function setFormValuesFromFetchedEvent($event)
+    {
         $this->formValues['name'] = $event->name;
         $this->formValues['location'] = $event->location;
         $this->formValues['max'] = $event->max_attendees;
