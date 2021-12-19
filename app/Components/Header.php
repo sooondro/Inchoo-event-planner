@@ -31,6 +31,9 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="/reservations">Reservations</a>
                     </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/profile">Profile</a>
+                    </li>
                 <?php endif; ?>
                 <?php if ($data['isAdmin']) : ?>
                     <li class="nav-item">
