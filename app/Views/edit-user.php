@@ -1,4 +1,11 @@
 <h3 class="text-center">Edit user information</h3>
+<div class="container d-flex justify-content-center">
+    <?php if (isset($data['confirmation'])) : ?>
+        <span style="color:red;">
+            <?= $data['message'] ?>
+        </span>
+    <?php endif; ?>
+</div>
 <div class="container d-flex justify-content-center mt-3">
     <form action="/edit-user" method="post" style="width: 30rem;">
         <div class="mb-3">
@@ -6,7 +13,8 @@
             <input
                 type="email"
                 class="form-control"
-                id="email" name="email"
+                id="email"
+                name="email"
                 value="<?= $data['user']->email ?>"
                 required
             >

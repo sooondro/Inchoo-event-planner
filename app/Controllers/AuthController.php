@@ -64,6 +64,10 @@ class AuthController
         return null;
     }
 
+    public function getActiveUserEmail() {
+        return $this->currentUser->email;
+    }
+
     public function getCurrentUser() {
         return $this->currentUser;
     }
