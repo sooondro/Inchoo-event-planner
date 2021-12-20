@@ -2,7 +2,7 @@
 
 namespace App\Validators;
 
-use App\Exceptions\Validator\SignupValidatorException;
+use App\Exceptions\Validator\BaseValidatorException;
 
 class BaseValidator
 {
@@ -13,7 +13,7 @@ class BaseValidator
 
     protected function validateName(string $value, string $parameter): bool {
         if (!$this->isEmpty($value) && $this->isOnlyLettersApostrophesDashesAndWhitespaces($value)) return true;
-        throw new SignupValidatorException('Invalid ' . $parameter);
+        throw new BaseValidatorException('Invalid ' . $parameter);
     }
 
     protected function isOnlyLettersApostrophesDashesAndWhitespaces(string $value)

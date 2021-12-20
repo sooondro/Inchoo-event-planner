@@ -64,4 +64,19 @@ class User
         return $user->fetch();
     }
 
+    public static function editUser(PDO $db, array $values) {
+        $query = $db->prepare("
+            UPDATE users
+            SET name = :name, surname = :surname, email = :email
+            WHERE id = :id
+        ");
+
+        $query->execute([
+           'name' => $values['name'],
+           'surname' => $values['surname'],
+           'email' => $values['email'],
+           'id' => $values['id'],
+        ]);
+    }
+
 }

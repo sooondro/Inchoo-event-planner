@@ -2,10 +2,12 @@
 
 use App\App;
 use App\Controllers\AdminEventsController;
+use App\Controllers\EditUserFormController;
 use App\Controllers\EventController;
 use App\Controllers\HomeController;
 use App\Controllers\LoginController;
 use App\Controllers\LogoutController;
+use App\Controllers\ProfileController;
 use App\Controllers\ReservationController;
 use App\Controllers\SignupController;
 error_reporting(E_ALL);
@@ -63,5 +65,9 @@ $app->map('/reservations', [new ReservationController($container->db), 'index'],
 $app->post('/delete-reservation', [new ReservationController($container->db), 'delete']);
 
 $app->map('/admin-events', [new AdminEventsController($container->db), 'index'], ['GET', 'POST']);
+
+$app->map('/profile', [new ProfileController($container->db), 'index'], ['GET', 'POST']);
+
+$app->map('/edit-user', [new EditUserFormController($container->db), 'index'], ['GET', 'POST']);
 
 $app->run();

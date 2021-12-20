@@ -53,7 +53,7 @@ class Reservation
 
     }
 
-    public static function fetchAllUserReservationIdsAsArray(PDO $db, int $userId): array
+    public static function fetchAllUserReservationIdsAsArray(PDO $db, $userId): array
     {
         $query = $db->prepare("
             SELECT event_id FROM reservations
