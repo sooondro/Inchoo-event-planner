@@ -11,34 +11,34 @@
         <div class="mb-3">
             <label for="email" class="form-label">Email address</label>
             <input
-                type="email"
-                class="form-control"
-                id="email"
-                name="email"
-                value="<?= $data['user']->email ?>"
-                required
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    name="email"
+                    value="<?= $data['user']->email ?>"
+                    required
             >
         </div>
         <div class="mb-3">
             <label for="name" class="form-label">Name</label>
             <input
-                type="text"
-                class="form-control"
-                id="name"
-                name="name"
-                value="<?= $data['user']->name ?>"
-                required
+                    type="text"
+                    class="form-control"
+                    id="name"
+                    name="name"
+                    value="<?= $data['user']->name ?>"
+                    required
             >
         </div>
         <div class="mb-3">
             <label for="surname" class="form-label">Surname</label>
             <input
-                type="text"
-                class="form-control"
-                id="surname"
-                name="surname"
-                value="<?= $data['user']->surname ?>"
-                required
+                    type="text"
+                    class="form-control"
+                    id="surname"
+                    name="surname"
+                    value="<?= $data['user']->surname ?>"
+                    required
             >
         </div>
         <div class="mb-3">
@@ -51,6 +51,11 @@
                     required
             >
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <div class="d-flex justify-content-between">
+            <a href="/edit-password">
+                <button type="button" class="btn btn-outline-danger">Change Password</button>
+            </a>
+            <button type="submit" class="btn btn-outline-secondary">Submit changes</button>
+        </div>
     </form>
 </div>
