@@ -71,4 +71,8 @@ class AuthController
     public function getCurrentUser() {
         return $this->currentUser;
     }
+
+    public function getCurrentUserPassword() {
+        return $this->currentUser->password;
+    }
 }
