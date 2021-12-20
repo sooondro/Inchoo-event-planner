@@ -28,17 +28,23 @@ class AdminEventsController extends AbstractController
     private function handleGetRequest($response)
     {
         return $response->setBody($response->renderView('admin-events', [
-            'events' => $this->fetchAllAdminEvents(),
+            'pastEvents' => $this->fetchAllPastAdminEvents(),
+            'futureEvents' => $this->fetchAllFutureAdminEvents(),
             'isAdmin' => $this->authController->isAdmin(),
             'isLoggedIn' => $this->authController->isLoggedIn(),
             'userName' => $this->authController->getActiveUserName()
         ]));
     }
 
-    private function fetchAllAdminEvents()
+    private function fetchAllPastAdminEvents()
     {
         $adminId = $this->authController->getActiveUserId();
-        return Event::fetchAllAdminEvents($this->db, $adminId);
+        return Event::fetchAllPastAdminEvents($this->db, $adminId);
+    }
+    private function fetchAllFutureAdminEvents()
+    {
+        $adminId = $this->authController->getActiveUserId();
+        return Event::fetchAllFutureAdminEvents($this->db, $adminId);
     }
 
 

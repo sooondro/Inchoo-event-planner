@@ -20,14 +20,17 @@ if (!isset($_SESSION)) {
                                 <form action="/delete-event" method="post">
                                     <input type="hidden" name="eventId" value="<?= $event->id ?>">
                                     <input type="hidden" name="location" value="/">
-                                    <button type="submit" class="btn btn-outline-danger d-flex mx-auto mb-2">Delete
-                                        event
-                                    </button>
+                                    <div class="d-flex justify-content-between">
+                                        <button type="submit" class="btn btn-outline-danger">Delete
+                                            event
+                                        </button>
+                                        <a href="/edit-event?eventId=<?= $event->id ?>">
+                                            <button type="button" class="btn btn-outline-secondary">Edit event
+                                            </button>
+                                        </a>
+
+                                    </div>
                                 </form>
-                                <a href="/edit-event?eventId=<?= $event->id ?>">
-                                    <button type="submit" class="btn btn-outline-secondary d-flex mx-auto">Edit event
-                                    </button>
-                                </a>
                             <?php elseif (in_array($event->id, $data['reservedEvents'])): ?>
                                 <form action="/delete-reservation" method="post">
                                     <input type="hidden" name="eventId" value="<?= $event->id ?>">
