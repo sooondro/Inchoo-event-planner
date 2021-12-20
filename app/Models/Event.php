@@ -131,10 +131,24 @@ class Event
         return $idArray;
     }
 
-    public static function fetchAllAdminEvents(PDO $db, int $id) {
+    public static function fetchAllPastAdminEvents(PDO $db, int $id) {
         $query = $db->prepare("
             SELECT * FROM events
-            WHERE admin_id = :id
+            WHERE admin_id = :id AND date < NOW()
+        ");
+
+        $query->execute([
+            'id' => $id
+        ]);
+
+        return $query->fetchAll(PDO::FETCH_CLASS, Event::class);
+
+    }
+
+    public static function fetchAllFutureAdminEvents(PDO $db, int $id) {
+        $query = $db->prepare("
+            SELECT * FROM events
+            WHERE admin_id = :id AND date > NOW()
         ");
 
         $query->execute([
