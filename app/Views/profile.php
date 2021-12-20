@@ -1,4 +1,3 @@
-
 <div class="container d-flex justify-content-center mt-3">
     <div class="card" style="width: 35rem;">
         <div class="card-body">
@@ -30,7 +29,9 @@
                     </div>
                 </div>
             </div>
-            <a href="/edit-user" class="btn btn-primary">Edit user information</a>
+            <div class="text-center">
+                <a href="/edit-user" class="btn btn-outline-secondary">Edit user information</a>
+            </div>
         </div>
     </div>
 </div>

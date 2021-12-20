@@ -98,4 +98,17 @@ class User
             'userId' => $userId
         ]);
     }
+
+    public static function changeUserPassword(PDO $db, int $id, string $password) {
+        $query = $db->prepare("
+            UPDATE users
+            SET password = :password
+            WHERE id = :userId
+        ");
+
+        $query->execute([
+            'userId' => $id,
+            'password' => $password
+        ]);
+    }
 }

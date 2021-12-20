@@ -75,6 +75,7 @@ class EditUserFormController extends AbstractController
         $values['name'] = $_POST['name'];
         $values['surname'] = $_POST['surname'];
         $values['email'] = $_POST['email'];
+        $values['password'] = $_POST['password'];
         $values['id'] = $this->authController->getActiveUserId();
         return $values;
     }
@@ -95,6 +96,7 @@ class EditUserFormController extends AbstractController
                 $this->userExists()
             ) return false;
             if (
+                $this->verifyPassword($this->formValues['password'], $this->authController->getCurrentUserPassword()) &&
                 $validator->validate($this->formValues)
             ) return true;
         } catch (Exception $e) {
@@ -112,6 +114,12 @@ class EditUserFormController extends AbstractController
             return true;
         }
         return false;
+    }
+
+    private function verifyPassword(string $password, string $hashedPassword): bool
+    {
+        if (password_verify($password, $hashedPassword)) return true;
+        throw new Exception('Invalid password');
     }
 
 }
