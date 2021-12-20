@@ -9,8 +9,11 @@
             </div>
             <input hidden name="id" value="<?= $user->id ?>">
             <?php if (!$user->admin): ?>
-                <div class="col text-center">
+                <div class="col d-flex justify-content-between">
                     <button type="submit" class="btn btn-outline-secondary">Make Admin</button>
+                    <a href="/delete-user?userId=<?= $user->id ?>">
+                        <button type="button" class="btn btn-outline-danger">Delete User</button>
+                    </a>
                 </div>
             <?php else: ?>
                 <div class="col text-center">

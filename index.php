@@ -74,6 +74,9 @@ $app->map('/edit-user', [new EditUserFormController($container->db), 'index'], [
 
 $app->map('/admin-panel', [new AdminPanelController($container->db), 'index'], ['GET', 'POST']);
 
+$app->get('/delete-user', [new AdminPanelController($container->db), 'delete']);
+
 $app->map('/edit-password', [new EditPasswordFormController($container->db), 'index'], ['GET', 'POST']);
+
 
 $app->run();
