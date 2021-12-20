@@ -111,4 +111,15 @@ class User
             'password' => $password
         ]);
     }
+
+    public static function deleteUserById(PDO $db, int $userId) {
+        $query = $db->prepare("
+            DELETE FROM users
+            WHERE id = :userId
+        ");
+
+        $query->execute([
+            'userId' => $userId
+        ]);
+    }
 }
