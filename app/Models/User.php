@@ -79,4 +79,23 @@ class User
         ]);
     }
 
+    public static function fetchAllUsers(PDO $db) {
+        $query = $db->query("
+            SELECT * FROM users
+        ");
+
+        return $query->fetchAll(PDO::FETCH_CLASS, User::class);
+    }
+
+    public static function makeUserAdmin(PDO $db, int $userId) {
+        $query = $db->prepare("
+            UPDATE users
+            SET admin = 1
+            WHERE id = :userId
+        ");
+
+        $query->execute([
+            'userId' => $userId
+        ]);
+    }
 }

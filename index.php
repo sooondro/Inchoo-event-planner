@@ -2,6 +2,7 @@
 
 use App\App;
 use App\Controllers\AdminEventsController;
+use App\Controllers\AdminPanelController;
 use App\Controllers\EditUserFormController;
 use App\Controllers\EventController;
 use App\Controllers\HomeController;
@@ -69,5 +70,7 @@ $app->map('/admin-events', [new AdminEventsController($container->db), 'index'],
 $app->map('/profile', [new ProfileController($container->db), 'index'], ['GET', 'POST']);
 
 $app->map('/edit-user', [new EditUserFormController($container->db), 'index'], ['GET', 'POST']);
+
+$app->map('/admin-panel', [new AdminPanelController($container->db), 'index'], ['GET', 'POST']);
 
 $app->run();

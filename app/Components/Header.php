@@ -40,6 +40,9 @@
                         <a class="nav-link" href="/admin-events">Admin events</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="/admin-panel">Admin panel</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="/create-event">Create Event</a>
                     </li>
                     <li class="nav-item">
