@@ -20,6 +20,14 @@ class EditUserFormController extends AbstractController
         $this->db = $db;
     }
 
+    /**
+     * Serves as a handler function for '/edit-user' uri.
+     * Checks if user is logged in.
+     * Checks request method and calls adequate handler functions.
+     * If request method is POST, prepares user input.
+     * @param Response $response
+     * @return Response|void
+     */
     public function index(Response $response)
     {
         if (!$this->authController->isLoggedIn()) {
@@ -35,7 +43,11 @@ class EditUserFormController extends AbstractController
         return $this->handleGetRequest($response);
     }
 
-
+    /**
+     * GET request handler function. Renders edit-user view.
+     * @param Response $response
+     * @return Response
+     */
     private function handleGetRequest(Response $response): Response
     {
         return $response->setBody($response->renderView('edit-user', [
@@ -46,6 +58,13 @@ class EditUserFormController extends AbstractController
         ]));
     }
 
+    /**
+     * POST request handler function.
+     * Validates user input, if it fails, rerenders edit-user view with error message displayed.
+     * Otherwise, edits user info in database.
+     * @param Response $response
+     * @return Response|void
+     */
     private function handlePostRequest(Response $response)
     {
         if ($this->validateUserInput()) {
@@ -63,12 +82,19 @@ class EditUserFormController extends AbstractController
         ]));
     }
 
+    /**
+     * Prepares user form input.
+     */
     private function prepareUserInput()
     {
         $this->formValues = $this->fetchFormValuesAsArray();
         $this->trimAllWhitespaceFromUserInput();
     }
 
+    /**
+     * Returns an associative array of user form inputs.
+     * @return array
+     */
     private function fetchFormValuesAsArray(): array
     {
         $values = [];
@@ -80,6 +106,9 @@ class EditUserFormController extends AbstractController
         return $values;
     }
 
+    /**
+     * Trims all unnecessary whitespace from user input.
+     */
     private function trimAllWhitespaceFromUserInput()
     {
         $this->formValues['name'] = trim($this->formValues['name']);
@@ -87,13 +116,17 @@ class EditUserFormController extends AbstractController
         $this->formValues['email'] = trim($this->formValues['email']);
     }
 
+    /**
+     * Validates user input with EditUserValidator. Returns true if validation passes.
+     * @return bool
+     */
     private function validateUserInput(): bool
     {
         $validator = new EditUserValidator();
         try {
             if (
                 $this->authController->getActiveUserEmail() !== $this->formValues['email'] &&
-                $this->userExists()
+                $this->userEmailExists()
             ) return false;
             if (
                 $this->verifyPassword($this->formValues['password'], $this->authController->getCurrentUserPassword()) &&
@@ -105,7 +138,11 @@ class EditUserFormController extends AbstractController
         return false;
     }
 
-    private function userExists(): bool
+    /**
+     * Checks if a user with given email already exists.
+     * @return bool
+     */
+    private function userEmailExists(): bool
     {
         $email = $this->formValues['email'];
         $user = User::findUserByEmail($this->db, $email);
@@ -116,6 +153,13 @@ class EditUserFormController extends AbstractController
         return false;
     }
 
+    /**
+     * Checks whether given password and active user hashed passwords match.
+     * @param string $password
+     * @param string $hashedPassword
+     * @return bool
+     * @throws Exception
+     */
     private function verifyPassword(string $password, string $hashedPassword): bool
     {
         if (password_verify($password, $hashedPassword)) return true;

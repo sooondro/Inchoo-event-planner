@@ -18,6 +18,13 @@ class EditPasswordFormController extends AbstractController
         $this->db = $db;
     }
 
+    /**
+     * Serves as a handler function for '/edit-password' uri.
+     * Redirects to homepage if user is not logged in.
+     * Checks request method and calls adequate handler function.
+     * @param Response $response
+     * @return Response|void
+     */
     public function index(Response $response)
     {
         if (!$this->authController->isLoggedIn()) {
@@ -32,6 +39,11 @@ class EditPasswordFormController extends AbstractController
         return $this->handleGetRequest($response);
     }
 
+    /**
+     * GET request handler function. Renders edit-password view.
+     * @param Response $response
+     * @return Response
+     */
     private function handleGetRequest(Response $response): Response
     {
         return $response->setBody($response->renderView('edit-password', [
@@ -41,6 +53,14 @@ class EditPasswordFormController extends AbstractController
         ]));
     }
 
+    /**
+     * POST request handler function.
+     * If user is not logged in, redirects to homepage.
+     * If validation fails, renders edit-password page with error message displayed.
+     * Otherwise, changes user password and redirects to homepage.
+     * @param Response $response
+     * @return Response|void
+     */
     private function handlePostRequest(Response $response)
     {
         if (!$this->authController->isLoggedIn()) {
@@ -62,8 +82,8 @@ class EditPasswordFormController extends AbstractController
     }
 
     /**
-     * Hashes user password for storing in database
-     * Returns the hashes password
+     * Hashes user password for storing in database.
+     * Returns the hashes password.
      * @return string
      */
     private function hashPassword(): string
@@ -73,8 +93,8 @@ class EditPasswordFormController extends AbstractController
     }
 
     /**
-     * Validates user input
-     * If validation passes, returns true
+     * Validates user input.
+     * If validation passes, returns true.
      * @return bool
      */
     private function validateUserInput(): bool
@@ -91,8 +111,9 @@ class EditPasswordFormController extends AbstractController
     }
 
     /**
-     * Checks if the password and the repeated password match
+     * Checks if the password and the repeated password match.
      * @return bool
+     * @throws Exception
      */
     private function passwordsMatch(): bool
     {
@@ -100,6 +121,13 @@ class EditPasswordFormController extends AbstractController
         throw new Exception('New passwords have to match');
     }
 
+    /**
+     * Checks if the logged in user hashed password matches the current password passed in the form.
+     * @param string $password
+     * @param string $hashedPassword
+     * @return bool
+     * @throws Exception
+     */
     private function verifyPassword(string $password, string $hashedPassword): bool
     {
         if (password_verify($password, $hashedPassword)) return true;

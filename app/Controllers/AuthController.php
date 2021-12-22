@@ -58,20 +58,36 @@ class AuthController
         return $this->currentUser->id ?? null;
     }
 
+    /**
+     * Returns active user name and surname concatenated as a string.
+     * @return string|null
+     */
     public function getActiveUserName()
     {
         if ($this->currentUser) return $this->currentUser->name . ' ' . $this->currentUser->surname;
         return null;
     }
 
+    /**
+     * Return active user email adress.
+     * @return mixed
+     */
     public function getActiveUserEmail() {
         return $this->currentUser->email;
     }
 
+    /**
+     * Returns active user object.
+     * @return mixed
+     */
     public function getCurrentUser() {
         return $this->currentUser;
     }
 
+    /**
+     * Returns active user current hashed password.
+     * @return mixed
+     */
     public function getCurrentUserPassword() {
         return $this->currentUser->password;
     }
