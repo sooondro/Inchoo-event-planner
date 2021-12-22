@@ -16,6 +16,13 @@ class AdminPanelController extends AbstractController
         $this->db = $db;
     }
 
+    /**
+     * Serves as a handler function for '/admin-panel' uri.
+     * Checks if user is admin.
+     * Checks request method and calls adequate handler function.
+     * @param Response $response
+     * @return Response|void
+     */
     public function index(Response $response)
     {
         if (!$this->authController->isAdmin()) {
@@ -24,12 +31,17 @@ class AdminPanelController extends AbstractController
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $this->handlePostRequest();
+            $this->handlePostRequestMakeAdmin();
         }
 
         return $this->handleGetRequest($response);
     }
 
+    /**
+     * GET request handler function. Renders admin-panel view.
+     * @param Response $response
+     * @return Response
+     */
     private function handleGetRequest(Response $response): Response
     {
         return $response->setBody($response->renderView('admin-panel', [
@@ -40,13 +52,12 @@ class AdminPanelController extends AbstractController
         ]));
     }
 
-    private function handlePostRequest()
+    /**
+     * POST request handler function.
+     * Calls function used for turning user to admin and redirects to homepage.
+     */
+    private function handlePostRequestMakeAdmin()
     {
-        if (!$this->authController->isAdmin()) {
-            header('Location: /');
-            die();
-        }
-
         $userId = $_POST['id'];
 
         User::makeUserAdmin($this->db, $userId);
@@ -54,6 +65,14 @@ class AdminPanelController extends AbstractController
         die();
     }
 
+    /**
+     * Serves as a handler function for '/delete-user' uri.
+     * Checks if user is admin, redirects if not.
+     * Checks if there is userId in query params in url and if it is numeric.
+     * Calls function for deleting user and rerenders page with new users array.
+     * @param Response $response
+     * @return Response|void
+     */
     public function delete(Response $response) {
         if (!$this->authController->isAdmin()) {
             header('Location: /');

@@ -7,7 +7,13 @@ use PDO;
 class User
 {
 
-    public static function signUpUser(PDO $db, array $values)
+    /**
+     * Post a new user to the database and returns his id.
+     * @param PDO $db
+     * @param array $values
+     * @return string
+     */
+    public static function signUpUser(PDO $db, array $values): string
     {
         $user = $db->prepare("
             INSERT INTO users (name, surname, email, password)
@@ -23,6 +29,11 @@ class User
         return $db->lastInsertId();
     }
 
+    /**
+     * Posts a new admin user to the database.
+     * @param PDO $db
+     * @param array $values
+     */
     public static function signUpAdminUser(PDO $db, array $values)
     {
         $user = $db->prepare("
@@ -38,6 +49,12 @@ class User
         ]);
     }
 
+    /**
+     * Fetches user from the database by email.
+     * @param PDO $db
+     * @param string $email
+     * @return mixed
+     */
     public static function findUserByEmail(PDO $db, string $email)
     {
         $user = $db->prepare("
@@ -51,6 +68,12 @@ class User
         return $user->fetch();
     }
 
+    /**
+     * Fetches user from the database by id.
+     * @param PDO $db
+     * @param int $id
+     * @return mixed
+     */
     public static function findUserById(PDO $db, int $id)
     {
         $user = $db->prepare("
@@ -64,6 +87,11 @@ class User
         return $user->fetch();
     }
 
+    /**
+     * Edits user info in the database.
+     * @param PDO $db
+     * @param array $values
+     */
     public static function editUser(PDO $db, array $values) {
         $query = $db->prepare("
             UPDATE users
@@ -79,6 +107,11 @@ class User
         ]);
     }
 
+    /**
+     * Fetches an array of all users from the database.
+     * @param PDO $db
+     * @return array|false
+     */
     public static function fetchAllUsers(PDO $db) {
         $query = $db->query("
             SELECT * FROM users
@@ -87,6 +120,11 @@ class User
         return $query->fetchAll(PDO::FETCH_CLASS, User::class);
     }
 
+    /**
+     * Updates user by id. Changes user to admin.
+     * @param PDO $db
+     * @param int $userId
+     */
     public static function makeUserAdmin(PDO $db, int $userId) {
         $query = $db->prepare("
             UPDATE users
@@ -99,6 +137,12 @@ class User
         ]);
     }
 
+    /**
+     * Changes users password.
+     * @param PDO $db
+     * @param int $id
+     * @param string $password
+     */
     public static function changeUserPassword(PDO $db, int $id, string $password) {
         $query = $db->prepare("
             UPDATE users
@@ -112,6 +156,11 @@ class User
         ]);
     }
 
+    /**
+     * Deletes a user from the database by id.
+     * @param PDO $db
+     * @param int $userId
+     */
     public static function deleteUserById(PDO $db, int $userId) {
         $query = $db->prepare("
             DELETE FROM users

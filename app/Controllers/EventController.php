@@ -22,10 +22,10 @@ class EventController extends AbstractController
     }
 
     /**
-     * Serves as a handler for '/create-event' uri
-     * Redirects to homepage if user does not have admin privilege
-     * If the request is GET request, calls GET request handler
-     * If the request is POST request, prepares POST data and calls POST request handler
+     * Serves as a handler for '/create-event' uri.
+     * Redirects to homepage if user does not have admin privilege.
+     * If the request is GET request, calls GET request handler.
+     * If the request is POST request, prepares POST data and calls POST request handler.
      * @param Response $response
      * @return void
      */
@@ -43,9 +43,9 @@ class EventController extends AbstractController
     }
 
     /**
-     * Serves as a handler for '/delete-event' uri
-     * If current user is not admin, redirects to homepage
-     * Deletes event and redirects to location from which it has been called
+     * Serves as a handler for '/delete-event' uri.
+     * If current user is not admin, redirects to homepage.
+     * Deletes event and redirects to location from which it has been called.
      * @return void
      */
     public function delete()
@@ -65,10 +65,10 @@ class EventController extends AbstractController
     }
 
     /**
-     * Serves as a handler for 'edit-event' uri
-     * If the user is not admin, redirects to homepage
-     * If the request is GET request, calls GET request handler
-     * If the request is POST request, prepares POST data and calls POST request handler
+     * Serves as a handler for 'edit-event' uri.
+     * If the user is not admin, redirects to homepage.
+     * If the request is GET request, calls GET request handler.
+     * If the request is POST request, prepares POST data and calls POST request handler.
      * @param Response $response
      * @return void
      */
@@ -88,7 +88,7 @@ class EventController extends AbstractController
     }
 
     /**
-     * GET request handler, redirects to create-event view with location create-event
+     * GET request handler, redirects to create-event view with location create-event.
      * @param Response $response
      * @return Response
      */
@@ -103,10 +103,10 @@ class EventController extends AbstractController
     }
 
     /**
-     *POST request handle function
-     * validates form input
-     * if validation passes, creates new event
-     * if validation does not pass, redirects user back to create event form and displays error message
+     *POST request handle function.
+     * validates form input.
+     * if validation passes, creates new event.
+     * if validation does not pass, redirects user back to create event form and displays error message.
      * @param Response $response
      * @return Response
      */
@@ -130,8 +130,8 @@ class EventController extends AbstractController
     }
 
     /**
-     * GET request edit event handle function
-     * fetches event that needs update by his id and prepopulates form values
+     * GET request edit event handle function.
+     * fetches event that needs update by his id and prepopulates form values.
      * @param Response $response
      * @return Response|void
      */
@@ -155,10 +155,10 @@ class EventController extends AbstractController
     }
 
     /**
-     * POST request edit event handle function
-     * Validates user input
-     * if user input is valid, updates the chosen event
-     * if validation fails, redirects back to the form and displays error message
+     * POST request edit event handle function.
+     * Validates user input.
+     * if user input is valid, updates the chosen event.
+     * if validation fails, redirects back to the form and displays error message.
      * @param Response $response
      * @return Response
      */
@@ -183,7 +183,7 @@ class EventController extends AbstractController
     }
 
     /**
-     * Calls all necessary function for preparing user input
+     * Calls all necessary function for preparing user input.
      * @return void
      */
     private function prepareUserInput()
@@ -193,7 +193,7 @@ class EventController extends AbstractController
     }
 
     /**
-     * Responsible for validating user input using Validators
+     * Responsible for validating user input using Validators.
      * @return bool
      */
     private function validateUserInput(): bool
@@ -208,8 +208,8 @@ class EventController extends AbstractController
     }
 
     /**
-     * returns all user form data as an associative array
-     * Used for easier handling of form data
+     * Fetches all user form data as an associative array.
+     * Used for easier handling of form data.
      * @return array
      */
     private function fetchFormValuesAsArray(): array
@@ -227,7 +227,7 @@ class EventController extends AbstractController
     }
 
     /**
-     * Trims all unnecessary white spaces from user input fields
+     * Trims all unnecessary white spaces from user input fields.
      * @return void
      */
     private function trimAllWhitespaceFromUserInput()
@@ -237,6 +237,9 @@ class EventController extends AbstractController
         $this->formValues['description'] = trim($this->formValues['description']);
     }
 
+    /**
+     * Saves uploaded file in public/Uploads directory.
+     */
     private function uploadFile()
     {
         $uploaddir = $_SERVER['DOCUMENT_ROOT'] . 'public/Uploads/';
@@ -250,6 +253,10 @@ class EventController extends AbstractController
         }
     }
 
+    /**
+     * Fetches image path in which the uploaded file was stored.
+     * @return string
+     */
     private function fetchImagePath(): string
     {
         $uploaddir = '/public/Uploads/';
@@ -258,7 +265,7 @@ class EventController extends AbstractController
 
     /**
      * Used for edit event prepopulation.
-     * Created so the controller can work with create event and edit event requests with same functions
+     * Created so the controller can work with create event and edit event requests with same functions.
      * @param $event
      * @return void
      */
@@ -273,6 +280,9 @@ class EventController extends AbstractController
         $this->formValues['image'] = $event->image;
     }
 
+    /**
+     * Deletes an old image if a new image was passed inside edit event action.
+     */
     private function deleteOldImageIfChanged()
     {
         if ($this->formValues['image'] !== '/public/Uploads/') {
@@ -280,6 +290,10 @@ class EventController extends AbstractController
             unlink($oldPath);
         }
     }
+
+    /**
+     * Uploads a new image if it was passed inside edit event action.
+     */
     private function uploadNewImageIfChanged()
     {
         if ($this->formValues['image'] !== '/public/Uploads/') {

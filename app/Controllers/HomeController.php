@@ -18,7 +18,7 @@ class HomeController extends AbstractController
     }
 
     /**
-     * Serves as a handler function for '/' uri, returns hoepage view
+     * Serves as a handler function for '/' uri, returns homepage view
      * @param $response
      * @return mixed*
      */

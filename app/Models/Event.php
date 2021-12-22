@@ -7,6 +7,11 @@ use PDO;
 class Event
 {
 
+    /**
+     * Fetches all future events.
+     * @param PDO $db
+     * @return array|false
+     */
     public static function fetchAllEvents(PDO $db)
     {
         $events = $db->prepare("
@@ -19,6 +24,12 @@ class Event
 
     }
 
+    /**
+     * Fetches and event object by id.
+     * @param PDO $db
+     * @param int $id
+     * @return mixed
+     */
     public static function fetchEventById(PDO $db, int $id)
     {
         $event = $db->prepare("
@@ -32,6 +43,11 @@ class Event
         return $event->fetch();
     }
 
+    /**
+     * Posts new event to the database.
+     * @param PDO $db
+     * @param array $values
+     */
     public static function postNewEvent(PDO $db, array $values)
     {
         $event = $db->prepare("
@@ -50,6 +66,11 @@ class Event
         ]);
     }
 
+    /**
+     * Updates admin event. Checks if a new image has been uploaded or not and calls adequate query.
+     * @param PDO $db
+     * @param array $values
+     */
     public static function updateAdminEvent(PDO $db, array $values)
     {
         if ($values['image'] == '/public/Uploads/') {
@@ -99,6 +120,11 @@ class Event
         ]);
     }
 
+    /**
+     * Deletes and event by id from the database.
+     * @param PDO $db
+     * @param int $id
+     */
     public static function deleteEventById(PDO $db, int $id)
     {
         $query = $db->prepare("
@@ -111,6 +137,12 @@ class Event
         ]);
     }
 
+    /**
+     * Fetches and array of all admin event ids.
+     * @param PDO $db
+     * @param int $adminId
+     * @return array
+     */
     public static function fetchAllAdminEventIdsAsArray(PDO $db, int $adminId): array
     {
         $query = $db->prepare("
@@ -130,6 +162,12 @@ class Event
         return $idArray;
     }
 
+    /**
+     * Fetches all admin events that have passed from the database.
+     * @param PDO $db
+     * @param int $id
+     * @return array|false
+     */
     public static function fetchAllPastAdminEvents(PDO $db, int $id) {
         $query = $db->prepare("
             SELECT * FROM events
@@ -144,6 +182,12 @@ class Event
 
     }
 
+    /**
+     * Fetches all future admin events from the database.
+     * @param PDO $db
+     * @param int $id
+     * @return array|false
+     */
     public static function fetchAllFutureAdminEvents(PDO $db, int $id) {
         $query = $db->prepare("
             SELECT * FROM events
@@ -158,6 +202,12 @@ class Event
 
     }
 
+    /**
+     * Checks if an event is reservable by looking at max attendees number and count.
+     * @param PDO $db
+     * @param int $id
+     * @return bool
+     */
     public static function isEventReservable(PDO $db, int $id): bool
     {
         $event = self::fetchEventById($db, $id);
@@ -165,6 +215,11 @@ class Event
         return true;
     }
 
+    /**
+     * Increments event count value by 1.
+     * @param PDO $db
+     * @param int $id
+     */
     public static function incrementEventCount(PDO $db, int $id)
     {
         $event = self::fetchEventById($db, $id);
@@ -183,6 +238,11 @@ class Event
 
     }
 
+    /**
+     * Decrements event count value by 1.
+     * @param PDO $db
+     * @param int $id
+     */
     public static function decrementEventCount(PDO $db, int $id)
     {
         $event = self::fetchEventById($db, $id);
