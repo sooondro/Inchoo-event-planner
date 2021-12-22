@@ -66,6 +66,7 @@
             ><?= $data['formValues']['description'] ?? '' ?></textarea>
         </div>
         <?php if ($data['location'] == '/edit-event') : ?>
+            <input type="hidden" name="oldImagePath" value="<?= $data['formValues']['image'] ?>">
             <img src="<?= $data['formValues']['image'] ?>" class="d-flex mx-auto" style="max-width: 30%">
         <?php endif; ?>
         <div class="mb-3">

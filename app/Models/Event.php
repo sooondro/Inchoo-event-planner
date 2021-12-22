@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use DateTime;
 use PDO;
 
 class Event
@@ -53,7 +52,7 @@ class Event
 
     public static function updateAdminEvent(PDO $db, array $values)
     {
-        if ($values['image'] == '') {
+        if ($values['image'] == '/public/Uploads/') {
             $query = $db->prepare("
             UPDATE events
             SET 
