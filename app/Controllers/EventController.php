@@ -56,8 +56,10 @@ class EventController extends AbstractController
         }
 
         $eventId = $_POST['eventId'];
+        $imagePath = $_SERVER['DOCUMENT_ROOT'] . $_POST['imagePath'];
 
         Event::deleteEventById($this->db, $eventId);
+        unlink($imagePath);
         header('Location: ' . $_POST['location']);
         die();
     }
@@ -164,6 +166,8 @@ class EventController extends AbstractController
     {
         if ($this->validateUserInput()) {
             Event::updateAdminEvent($this->db, $this->formValues);
+            $this->deleteOldImageIfChanged();
+            $this->uploadNewImageIfChanged();
             header('Location: /');
             die();
         }
@@ -269,5 +273,18 @@ class EventController extends AbstractController
         $this->formValues['image'] = $event->image;
     }
 
+    private function deleteOldImageIfChanged()
+    {
+        if ($this->formValues['image'] !== '/public/Uploads/') {
+            $oldPath = $_SERVER['DOCUMENT_ROOT'] . $_POST['oldImagePath'];
+            unlink($oldPath);
+        }
+    }
+    private function uploadNewImageIfChanged()
+    {
+        if ($this->formValues['image'] !== '/public/Uploads/') {
+            $this->uploadFile();
+        }
+    }
 
 }

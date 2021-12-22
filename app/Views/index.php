@@ -21,6 +21,7 @@ if (!isset($_SESSION)) {
                                 <?php if (in_array($event->id, $data['adminEvents']))  : ?>
                                     <form action="/delete-event" method="post">
                                         <input type="hidden" name="eventId" value="<?= $event->id ?>">
+                                        <input type="hidden" name="imagePath" value="<?= $event->image ?>">
                                         <input type="hidden" name="location" value="/">
                                         <div class="d-flex justify-content-between">
                                             <button type="submit" class="btn btn-outline-danger">Delete

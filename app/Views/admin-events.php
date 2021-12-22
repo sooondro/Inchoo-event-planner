@@ -40,6 +40,7 @@
                                 <p class="card-text"><?= $event->description ?></p>
                                 <form action="/delete-event" method="post">
                                     <input type="hidden" name="eventId" value="<?= $event->id ?>">
+                                    <input type="hidden" name="imagePath" value="<?= $event->image ?>">
                                     <input type="hidden" name="location" value="/admin-events">
                                     <div class="d-flex justify-content-between">
                                         <button type="submit" class="btn btn-outline-danger">Delete event</button>
