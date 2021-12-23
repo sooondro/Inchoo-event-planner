@@ -9,8 +9,8 @@
                 <div class="error-details">
                     Sorry, an error has occured, Requested page not found!
                 </div>
-                <div class="error-actions">
-                    <a href="/" class="btn btn-primary btn-lg"></span>
+                <div class="error-actions mt-3">
+                    <a href="/" class="btn btn-outline-secondary btn-lg"></span>
                         Take Me Home </a>
                 </div>
             </div>

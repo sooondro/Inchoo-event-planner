@@ -1,6 +1,13 @@
 <hr>
 <?php if (empty($data['events'])): ?>
     <h3 class="text-center my-3">Sorry, there is no events planned...</h3>
+    <?php if ($data['isAdmin']): ?>
+        <a href="/create-event" style="text-decoration: none">
+            <button type="button" class="btn btn-outline-secondary d-flex mx-auto">
+                Create a new event
+            </button>
+        </a>
+    <?php endif; ?>
 <?php else: ?>
     <h3 class="text-center my-3">All Future Events</h3>
 <?php endif; ?>
