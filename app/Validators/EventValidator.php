@@ -24,7 +24,7 @@ class EventValidator extends BaseValidator implements ValidatorInterface
     function validate(array $values): bool
     {
         return
-            $this->validateName($values['name'], 'name') &&
+            $this->validateEventName($values['name']) &&
             $this->validateDateTime($values['date']) &&
             $this->validateLocation($values['location']) &&
             $this->validateDescription($values['description']) &&
@@ -54,9 +54,21 @@ class EventValidator extends BaseValidator implements ValidatorInterface
      * @return bool
      * @throws EventValidatorException
      */
+    private function validateEventName(string $location): bool
+    {
+        if (!$this->isEmpty($location) && preg_match("/^[a-zA-Z0-9-'!,. ]*$/", $location)) return true;
+        throw new EventValidatorException('Invalid name');
+    }
+
+    /**
+     * Validates if location value is valid.
+     * @param string $location
+     * @return bool
+     * @throws EventValidatorException
+     */
     private function validateLocation(string $location): bool
     {
-        if (!$this->isEmpty($location) && preg_match("/^[a-zA-Z0-9-' ]*$/", $location)) return true;
+        if (!$this->isEmpty($location) && preg_match("/^[a-zA-Z0-9-'., ]*$/", $location)) return true;
         throw new EventValidatorException('Invalid location');
     }
 
@@ -68,7 +80,7 @@ class EventValidator extends BaseValidator implements ValidatorInterface
      */
     private function validateDescription(string $description): bool
     {
-        if (!$this->isEmpty($description) && preg_match("/^[a-zA-Z0-9-' ]*$/", $description)) return true;
+        if (!$this->isEmpty($description)) return true;
         throw new EventValidatorException('Invalid description');
     }
 

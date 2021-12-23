@@ -30,6 +30,6 @@
                     required
             >
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-outline-secondary d-flex mx-auto">Submit</button>
     </form>
 </div>
