@@ -1,3 +1,4 @@
+<h3 class="text-center my-3">Your reservations</h3>
 <div class="container">
     <?php if (isset($data)) : ?>
         <?php if (!empty($data['events'])): ?>

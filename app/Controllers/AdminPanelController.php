@@ -86,7 +86,7 @@ class AdminPanelController extends AbstractController
 
         $userId = $_GET['userId'];
 
-        if ($this->isUserAdmin($userId)) {
+        if ($this->isUserAdmin($userId) || $userId == $this->authController->getActiveUserId()) {
             header('Location: /admin-panel');
             die();
         }
@@ -100,6 +100,11 @@ class AdminPanelController extends AbstractController
         ]));
     }
 
+    /**
+     * Checks whether user with given id has admin role.
+     * @param int $userId
+     * @return mixed
+     */
     private function isUserAdmin(int $userId) {
         return User::checkUserAdminById($this->db, $userId);
     }

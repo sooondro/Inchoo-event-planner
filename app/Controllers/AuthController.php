@@ -15,7 +15,7 @@ class AuthController
     private $db;
 
     /**
-     * Checks if there is a logged in user
+     * Checks if there is a logged-in user
      * @param PDO $db
      */
     public function __construct(PDO $db)
@@ -59,7 +59,7 @@ class AuthController
     }
 
     /**
-     * Returns active user name and surname concatenated as a string.
+     * Returns active users name and surname concatenated as a string.
      * @return string|null
      */
     public function getActiveUserName()
@@ -69,7 +69,7 @@ class AuthController
     }
 
     /**
-     * Return active user email adress.
+     * Return active user email address.
      * @return mixed
      */
     public function getActiveUserEmail() {

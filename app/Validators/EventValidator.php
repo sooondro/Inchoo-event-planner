@@ -2,7 +2,6 @@
 
 namespace App\Validators;
 
-use App\Exceptions\Validator\BaseValidatorException;
 use App\Exceptions\Validator\EventValidatorException;
 use App\Interfaces\ValidatorInterface;
 use DateTime;
@@ -19,7 +18,6 @@ class EventValidator extends BaseValidator implements ValidatorInterface
      * @param array $values
      * @return bool
      * @throws EventValidatorException
-     * @throws BaseValidatorException
      */
     function validate(array $values): bool
     {

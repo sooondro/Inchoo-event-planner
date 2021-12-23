@@ -1,4 +1,3 @@
-<hr>
 <?php if (empty($data['events'])): ?>
     <h3 class="text-center my-3">Sorry, there is no events planned...</h3>
     <?php if ($data['isAdmin']): ?>
