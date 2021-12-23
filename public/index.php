@@ -12,20 +12,13 @@ use App\Controllers\LogoutController;
 use App\Controllers\ProfileController;
 use App\Controllers\ReservationController;
 use App\Controllers\SignupController;
+
 error_reporting(E_ALL);
-ini_set("display_errors","On");
-//require_once 'vendor/autoload.php';
+ini_set("display_errors", "On");
 require_once '../vendor/autoload.php';
 $app = new App;
 
 $container = $app->getContainer();
-
-$container['errorHandler'] = function () {
-    return function ($response) {
-
-        return $response->setBody('page not found')->withStatus(404);
-    };
-};
 
 $container['config'] = function () {
     return [

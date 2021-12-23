@@ -2,9 +2,8 @@
 
 namespace App;
 
-use App\Exceptions\MethodNotAllowedException;
-use App\Exceptions\RouteNotFoundException;
-use App\Validators\SignupValidator;
+use App\Controllers\ErrorController;
+use Exception;
 
 class App
 {
@@ -18,9 +17,6 @@ class App
             },
             'response' => function () {
                 return new Response;
-            },
-            'signupValidator' => function () {
-                return new SignupValidator;
             }
         ]);
 
@@ -53,20 +49,9 @@ class App
 
         try {
             $response = $router->getResponse();
-        } catch (RouteNotFoundException $e) {
-            if ($this->container->has('errorHandler')) {
-                $response = $this->container->errorHandler;
-            } else {
-                return;
-            }
-        } catch (MethodNotAllowedException $e) {
-            if ($this->container->has('errorHandler')) {
-                $response = $this->container->errorHandler;
-            } else {
-                return;
-            }
+        } catch (Exception $e) {
+            $response = [new ErrorController($this->container->db), 'index'];
         }
-
         return $this->respond($this->process($response));
     }
 
