@@ -10,7 +10,7 @@ class Response
 
     protected $headers = [];
 
-    public function setBody($body)
+    public function setBody($body): Response
     {
         $this->body = $body;
         return $this;
@@ -27,17 +27,9 @@ class Response
         return $this;
     }
 
-    public function getStatusCode()
+    public function getStatusCode(): int
     {
         return $this->statusCode;
-    }
-
-    public function withJson($body)
-    {
-        $this->withHeader('Content-Type', 'application/json');
-        $this->body = json_encode($body);
-
-        return $this;
     }
 
     public function withHeader($name, $value) {
@@ -45,7 +37,8 @@ class Response
         return $this;
     }
 
-    public function getHeaders() {
+    public function getHeaders(): array
+    {
         return $this->headers;
     }
 
