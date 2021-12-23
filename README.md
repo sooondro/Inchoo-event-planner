@@ -1,4 +1,4 @@
-#Inchoo event planner
+# Inchoo event planner
 
 This is a learning project application made by Sandro Blavicki for the purpose of Inchoo student internship. 
 The application is written using plain PHP and MVC architecture. 
