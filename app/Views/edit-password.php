@@ -38,6 +38,6 @@
                     required
             >
         </div>
-        <button type="submit" class="btn btn-outline-secondary">Submit changes</button>
+        <button type="submit" class="btn btn-outline-secondary d-flex mx-auto">Submit changes</button>
     </form>
 </div>

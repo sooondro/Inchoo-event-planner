@@ -171,4 +171,25 @@ class User
             'userId' => $userId
         ]);
     }
+
+    /**
+     * Checks whether user found by the given id is admin and returns its admin value.
+     * @param PDO $db
+     * @param int $id
+     * @return mixed
+     */
+    public static function checkUserAdminById(PDO $db, int $id) {
+        $query = $db->prepare("
+            SELECT admin FROM users
+            WHERE id = :id
+        ");
+
+        $query->execute([
+            'id' => $id
+        ]);
+
+        $value = $query->fetch(PDO::FETCH_ASSOC);
+        return $value['admin'];
+
+    }
 }

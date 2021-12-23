@@ -85,6 +85,12 @@ class AdminPanelController extends AbstractController
         }
 
         $userId = $_GET['userId'];
+
+        if ($this->isUserAdmin($userId)) {
+            header('Location: /admin-panel');
+            die();
+        }
+
         User::deleteUserById($this->db, $userId);
         return $response->setBody($response->renderView('admin-panel', [
             'isAdmin' => $this->authController->isAdmin(),
@@ -92,6 +98,10 @@ class AdminPanelController extends AbstractController
             'userName' => $this->authController->getActiveUserName(),
             'users' => User::fetchAllUsers($this->db)
         ]));
+    }
+
+    private function isUserAdmin(int $userId) {
+        return User::checkUserAdminById($this->db, $userId);
     }
 
 }

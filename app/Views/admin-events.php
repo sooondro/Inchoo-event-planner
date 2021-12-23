@@ -9,8 +9,18 @@
                             <img src="<?= $event->image ?? '' ?>" class="card-img-top" alt="Event image">
                             <div class="card-body">
                                 <h5 class="card-title"><?= $event->name ?></h5>
-                                <h6 class="card-subtitle mb-2 text-muted">Max: <?= $event->max_attendees ?> |
-                                    Date: <?= $event->date ?></h6>
+                                <h6 class="card-subtitle mb-2 text-muted">
+                                    Location: <?= $event->location ?>
+                                </h6>
+                                <h6 class="card-subtitle mb-2 text-muted">
+                                    Max attendees: <?= $event->max_attendees ?>
+                                </h6>
+                                <h6 class="card-subtitle mb-2 text-muted">
+                                    Reservations made: <?= $event->count ?>
+                                </h6>
+                                <h6 class="card-subtitle mb-2 text-muted">
+                                    Date: <?= $event->date ?>
+                                </h6>
                                 <p class="card-text"><?= $event->description ?></p>
                                 <form action="/delete-event" method="post">
                                     <input type="hidden" name="eventId" value="<?= $event->id ?>">
@@ -24,7 +34,7 @@
                 <?php endforeach; ?>
             </div>
         <?php else: ?>
-            <h3 class="text-center">No admin events have passed</h3>
+            <h3 class="text-center mt-3">No admin events have passed</h3>
         <?php endif; ?>
         <h3 class="mt-5">Future events:</h3>
         <?php if (!empty($data['futureEvents'])): ?>
@@ -35,8 +45,18 @@
                             <img src="<?= $event->image ?? '' ?>" class="card-img-top" alt="Event image">
                             <div class="card-body">
                                 <h5 class="card-title"><?= $event->name ?></h5>
-                                <h6 class="card-subtitle mb-2 text-muted">Max: <?= $event->max_attendees ?> |
-                                    Date: <?= $event->date ?></h6>
+                                <h6 class="card-subtitle mb-2 text-muted">
+                                    Location: <?= $event->location ?>
+                                </h6>
+                                <h6 class="card-subtitle mb-2 text-muted">
+                                    Max attendees: <?= $event->max_attendees ?>
+                                </h6>
+                                <h6 class="card-subtitle mb-2 text-muted">
+                                    Reservations made: <?= $event->count ?>
+                                </h6>
+                                <h6 class="card-subtitle mb-2 text-muted">
+                                    Date: <?= $event->date ?>
+                                </h6>
                                 <p class="card-text"><?= $event->description ?></p>
                                 <form action="/delete-event" method="post">
                                     <input type="hidden" name="eventId" value="<?= $event->id ?>">
@@ -56,8 +76,8 @@
                 <?php endforeach; ?>
             </div>
         <?php else: ?>
-            <h3>No future admin events</h3>
-            <div class="text-center">
+            <h3 class="text-center mt-3">No future admin events</h3>
+            <div class="text-center mt-3">
                 <a href="/create-event">
                     <button class="btn btn-outline-secondary">
                         Create an event
