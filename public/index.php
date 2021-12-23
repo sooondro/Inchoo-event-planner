@@ -20,13 +20,6 @@ $app = new App;
 
 $container = $app->getContainer();
 
-$container['errorHandler'] = function () {
-    return function ($response) {
-
-        return $response->setBody($response->renderView('404'))->withStatus(404);
-    };
-};
-
 $container['config'] = function () {
     return [
         'db_driver' => 'mysql',
