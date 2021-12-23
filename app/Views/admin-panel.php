@@ -11,7 +11,7 @@
                 </div>
                 <input hidden name="id" value="<?= $user->id ?>">
                 <?php if (!$user->admin): ?>
-                    <div class="col-lg-4 d-flex justify-content-between">
+                    <div class="col-lg-4 d-flex justify-content-around">
                         <button type="submit" class="btn btn-outline-secondary">Make Admin</button>
                         <a href="/delete-user?userId=<?= $user->id ?>">
                             <button type="button" class="btn btn-outline-danger">Delete User</button>
