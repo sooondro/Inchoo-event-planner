@@ -80,6 +80,6 @@
             >
         </div>
         <input type="hidden" name="eventId" value="<?= $data['formValues']['eventId'] ?? '' ?>">
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-outline-secondary d-flex mx-auto">Submit</button>
     </form>
 </div>

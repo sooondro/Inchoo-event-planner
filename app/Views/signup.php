@@ -1,4 +1,8 @@
-<h3 class="text-center">Create a new account!</h3>
+<?php if (isset($data['location']) && $data['location'] == '/create-admin'): ?>
+    <h3 class="text-center">Create a new admin account!</h3>
+<?php else: ?>
+    <h3 class="text-center">Create a new account!</h3>
+<?php endif; ?>
 <div class="container d-flex justify-content-center">
     <?php if (isset($data['confirmation'])) : ?>
         <span style="color:red;">
@@ -36,7 +40,7 @@
                     class="form-control"
                     id="surname"
                     name="surname"
-                    value="<?= $data['formValues']['surname'] ?? ''?>"
+                    value="<?= $data['formValues']['surname'] ?? '' ?>"
                     required
             >
         </div>
@@ -61,6 +65,6 @@
                     required
             >
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-outline-secondary d-flex mx-auto">Submit</button>
     </form>
 </div>
